@@ -1,0 +1,97 @@
+{%extends "index.html"%}
+{%block js%}
+{{super()}}
+<script src="js/load-image.all.min.js"></script>
+<script src="js/load-image-exif-map.js"></script>
+{%endblock%}
+{%block body_tag%} ng-app="flowtong" ng-controller="PreviewCtrl" ng-cloak{%endblock%}
+{%block headermenu%}
+{{super()}}
+{%endblock%}
+
+{%block headerinfo%}
+		<div class="banner-info">
+<!--<input type="file" id="fileinput" accept="image/*"  style="position:absolute;top:-100px;" />-->
+<input nv-file-select uploader="uploader" type="file" class="flowtobutton" id="fileinput" style="position:absolute;top:-50px;" multiple/>
+<center><button class="flowtobutton" onclick="$('#fileinput').trigger('click');" href="preview.html"><img src="images/ic_camera_alt_black_48dp.png">Take a FLOWTO </button></center>
+
+		</div><!--banner-info-->
+			
+<!--	<div class="banner-icons" style="margin-left:10px;">
+			<ul>
+				<li><a href="#" class="gmail"> </a></li>
+				<li><span style="margin: 0em 0 1em;	padding: 10px 25px;float:left;">Login with Gmail</span></li>
+			</ul>
+		</div>
+		-->	
+	{%include "_preview.inc"%}
+{%endblock%}
+{%block content%}
+<div id="service" class="service"><!--for map section-->
+<div class="container">
+<button ng-click="saveuploaded_flowto();">test flowto</button>
+</div><!--container service(map)-->
+</div><!--service(map)-->
+	
+{%endblock%}
+
+{%block js_end%}
+{{super()}}
+<script>
+
+/*
+document.getElementById('fileinput').addEventListener('change', function(){
+    var file = this.files[0];
+	//var reader = new FileReader();
+	//reader.readAsBinaryString(file);
+	//EXIF.readFromBinaryFile(reader.result);
+	var make = EXIF.getTag(this, "Make");
+	var model = EXIF.getTag(this, "Model");
+	var makeAndModel = document.getElementById("makeAndModel");
+	makeAndModel.innerHTML = JSON.stringify(make);
+	EXIF.getData(file, function() {
+		
+	        alert(EXIF.pretty(this));
+	    });
+    // This code is only for demo ...
+    //console.log("name : " + file.name);
+    //console.log("size : " + file.size);
+    //console.log("type : " + file.type);
+    //console.log("date : " + file.lastModified);
+
+
+	    
+	
+}, false);
+*/
+/*
+document.getElementById('fileinput').onchange = function (e) {
+	alert('asdf');
+    loadImage.parseMetaData(
+        e.target.files[0],
+        function (data) {
+            //alert('loaded');
+			var GPSLongitude = data.exif.get('DateTime');
+			//var orientation = data.exif[0x0002];
+			//GPSLatitude
+			//GPSLongitude
+			//DateTimeOriginal
+			//Make   etc Wiko
+			//Model    etc PULT FAB 4G
+			//DateTime
+			alert('GPSLongitude:'+ GPSLongitude);
+        },
+        { maxMetaDataSize: 262144} // Options
+    );
+	loadImage(
+		e.target.files[0],
+		function (img) {
+			
+		},
+			{maxWidth: 600} // Options
+		);
+};
+*/
+</script>
+{%endblock%}
+
