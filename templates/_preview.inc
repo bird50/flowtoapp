@@ -19,6 +19,7 @@
 <p><label>Latitude :</label>{{ft.exif.lat}}</p>
 <p><label>Longitude :</label>{{ft.exif.lng}}</p>
 <p><label>Date Time :</label>{{ft.exif.DateTime.human}}</p>
+<p><md-button class="md-warn" ng-click="ft.remove();">remove</md-button></p>
 </div>
 <div class="clearfix"></div>
 <div class="contact">
