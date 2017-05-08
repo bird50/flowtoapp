@@ -134,6 +134,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 
 	    // REGISTER HANDLERS
 	    // --------------------
+		$scope.progress_upload=0;
 	    uploader.onAfterAddingFile = function(item) {
   		  item.exif={};
 		  item.flowto={};
@@ -216,6 +217,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	    // --------------------
 	    uploader.onProgressAll = function(progress) {
 	      console.info('Total progress: ' + progress);
+		  $scope.progress_upload=progress;
 	    };
 	    // --------------------
 		
@@ -224,7 +226,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		  console.log('User:'+item.flowto.username);
 		  console.log('Caption:'+item.flowto.caption);
 	      $scope.$broadcast('uploadCompleted', item);
-		  $scope.saveuploaded_flowto(item.file.name,$scope.media_container_name,item.flowto.caption,item.exif.DateTime.moment,$scope.uid,1,item.exif.lat,item.exif.lng);
+		   $scope.saveuploaded_flowto(item.file.name,$scope.media_container_name,item.flowto.caption,item.exif.DateTime.moment,$scope.uid,1,item.exif.lat,item.exif.lng);
 	    };
 		
 		
