@@ -31,7 +31,7 @@
 </md-input-container>-->
  </div>
 </div><!--ng repeat-->
-<md-progress-circular md-mode="determinate" md-diameter="30" value="{{progress_upload}}"></md-progress-circular>
+<md-progress-circular md-mode="determinate" md-diameter="30" value="{{progress_upload}}" ng-disabled="true" class="md-hue-2" ></md-progress-circular>
 	<center><button ng-click="flowtoUploadAll();" class="flowtobutton">UPLOAD</button></center>
 {%endverbatim%}
 

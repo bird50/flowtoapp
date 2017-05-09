@@ -117,7 +117,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
   */
 	//for process upload status
 	
-	$scope.progress_upload=0;
+	$scope.progress_upload=10;
 	$interval(function() {
 		$scope.progress_upload += 1;
 		if($scope.progress_upload > 100) {
