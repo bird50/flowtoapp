@@ -66,7 +66,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		return create_container;
 	};
 })
-.controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,APIsEndPoint) {	
+.controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,APIsEndPoint,$interval) {	
 	// init 
 	// 1) check if logedin
 	// 2) create folder for upload media by username
@@ -115,6 +115,16 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	  });
   }
   */
+	//for process upload status
+	
+	$scope.progress_upload=0;
+	$interval(function() {
+		$scope.progress_upload += 1;
+		if($scope.progress_upload > 100) {
+			$scope.progress_upload = 10;
+		}
+	}, 100);
+	//end prcess upload
 	var uploader = $scope.uploader = new FileUploader({
 	      scope: $scope,                          // to automatically update the html. Default: $rootScope
 	     // url: 'http://192.168.59.103:3001/api/media/'+$scope.media_container_name+'/upload',
@@ -134,7 +144,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 
 	    // REGISTER HANDLERS
 	    // --------------------
-		$scope.progress_upload=0;
+		
 	    uploader.onAfterAddingFile = function(item) {
   		  item.exif={};
 		  item.flowto={};
