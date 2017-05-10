@@ -1,5 +1,5 @@
 //flowtoapp
-angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload'])
+angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload','ngAvatar'])
 .controller('LoginCtrl', function($scope, FlowtoUser, $location,flowtoMsg,Media,APIsEndPoint) {
 	$scope.credentials={};
 	$scope.u={}; // for keep user detail
@@ -7,6 +7,8 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	if($scope.islogin){
 		$scope.uid=FlowtoUser.getCurrentId();
 		$scope.u=FlowtoUser.findById({"id":$scope.uid});
+		//$scope.u.userLetter=$scope.u.username.toUpperCase();
+		//console.log($scope.u.userLetter);
 	}
 	$scope.login = function() {
 		//console.log($scope.credentials);
@@ -21,6 +23,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 				flowtoMsg.alert('Login Fail!!!');
 			}).$promise.then(function(obj1){
 				$scope.u=obj1.user;
+				//$scope.u.userLetter=obj1.username.charAt(0).toUpperCase();
 				return;
 			})
 			;
