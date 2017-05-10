@@ -235,14 +235,16 @@ var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click'
 				console.info('user:'+data[i].flowtoUser);
 				var photo = {
 				//	url:'http://192.168.59.103:3001/api/media/'+data[i].media_container+'/download/'+data[i].media_name,
-					url:APIsEndPoint.url+'/media/'+data[i].media_container+'/download/'+data[i].media_name,
+					//url:APIsEndPoint.url+'/media/'+data[i].media_container+'/download/'+data[i].media_name,
+					url:APIsEndPoint.flowto_files+'/'+data[i].media_container+'/mid/'+data[i].media_name,
 				//	url:APIsEndPoint.flowtofiles_url+'/'+data[i].media_container+'/mid/'+data[i].media_name,
 					lat:data[i].position.lat,
 					lng:data[i].position.lng,
 					flowtodate:moment(data[i].flowtodate).fromNow(),
 					caption:data[i].caption,
 					//thumbnail:'http://192.168.59.103:3001/api/media/'+data[i].media_container+'/download/'+data[i].media_name
-					thumbnail:APIsEndPoint.url+'/media/'+data[i].media_container+'/download/'+data[i].media_name
+					//thumbnail:APIsEndPoint.url+'/media/'+data[i].media_container+'/download/'+data[i].media_name
+					thumbnail:APIsEndPoint.flowto_files+'/'+data[i].media_container+'/thumb/'+data[i].media_name
 				//	thumbnail:APIsEndPoint.flowtofiles_url+'/'+data[i].media_container+'/thumb/'+data[i].media_name
 				};
 				photos.push(photo);

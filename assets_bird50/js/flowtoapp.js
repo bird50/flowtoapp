@@ -117,13 +117,15 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
   */
 	//for process upload status
 	
-	$scope.progress_upload=10;
-	$interval(function() {
-		$scope.progress_upload += 1;
-		if($scope.progress_upload > 100) {
-			$scope.progress_upload = 10;
+	$scope.progress_upload=0;
+	$scope.progress_upload_show=false;
+	/*$interval(function() {
+		//$scope.progress_upload += 1;
+		if($scope.progress_upload >= 100) {
+			$scope.progress_upload = 0;
 		}
-	}, 100);
+	}, 50);*/
+	
 	//end prcess upload
 	var uploader = $scope.uploader = new FileUploader({
 	      scope: $scope,                          // to automatically update the html. Default: $rootScope
@@ -211,6 +213,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	    // --------------------
 	    uploader.onBeforeUploadItem = function(item) {
 	      console.info('Before upload', item);
+		  $scope.progress_upload_show=true;
 		  //item._file=getThumbnail_blob(item._file);
 		  //1) check if upload path exist then make path
 		 // item.url='http://192.168.59.103:3001/api/media/'+$scope.media_container_name+'/upload';
@@ -228,6 +231,8 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	    uploader.onProgressAll = function(progress) {
 	      console.info('Total progress: ' + progress);
 		  $scope.progress_upload=progress;
+		  
+		//  $scope.$apply();
 	    };
 	    // --------------------
 		
@@ -235,6 +240,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	      console.info('Success', response, status, headers);
 		  console.log('User:'+item.flowto.username);
 		  console.log('Caption:'+item.flowto.caption);
+		  $scope.progress_upload_show=false;
 	      $scope.$broadcast('uploadCompleted', item);
 		   $scope.saveuploaded_flowto(item.file.name,$scope.media_container_name,item.flowto.caption,item.exif.DateTime.moment,$scope.uid,1,item.exif.lat,item.exif.lng);
 	    };

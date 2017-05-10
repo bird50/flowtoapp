@@ -62,7 +62,13 @@ angular.module('flowtomodule',['ngMaterial'])
      }
 	
 })
-.constant('APIsEndPoint',{'url':'http://bid.rid.go.th:3001/api'})
+.constant(
+	'APIsEndPoint',{
+		'url':'http://bid.rid.go.th:3001/api',
+		'flowto_files':'http://bid.rid.go.th:3001/flowtofiles'
+	}
+)
+//.constant('MediaEndPoint',{'url':'http://bid.rid.go.th:3001/flowtofiles'})
 //.constant('APIsEndPoint',{
 //	'url':'http://192.168.59.103:3001/api',
 //	'flowtofiles_url':'http://192.168.59.103:3001/flowtofiles'
