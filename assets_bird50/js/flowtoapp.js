@@ -1,6 +1,6 @@
 //flowtoapp
 angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload','ngAvatar'])
-.controller('LoginCtrl', function($scope, FlowtoUser, $location,flowtoMsg,Media,APIsEndPoint) {
+.controller('LoginCtrl', function($scope, FlowtoUser, $location,$window,flowtoMsg,Media,APIsEndPoint) {
 	$scope.credentials={};
 	$scope.u={}; // for keep user detail
 	$scope.islogin=FlowtoUser.isAuthenticated();
