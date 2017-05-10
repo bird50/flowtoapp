@@ -68,6 +68,11 @@ angular.module('flowtomodule',['ngMaterial'])
 		'flowto_files':'http://bid.rid.go.th:3001/flowtofiles'
 	}
 )
+.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('green')
+    .accentPalette('deep-orange');
+})
 //.constant('MediaEndPoint',{'url':'http://bid.rid.go.th:3001/flowtofiles'})
 //.constant('APIsEndPoint',{
 //	'url':'http://192.168.59.103:3001/api',
