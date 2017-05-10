@@ -70,7 +70,7 @@ angular.module('flowtomodule',['ngMaterial'])
 )
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
-    .primaryPalette('deep-green')
+    .primaryPalette('teal')
     .accentPalette('deep-orange');
 })
 //.constant('MediaEndPoint',{'url':'http://bid.rid.go.th:3001/flowtofiles'})
