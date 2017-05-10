@@ -24,6 +24,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 			}).$promise.then(function(obj1){
 				$scope.u=obj1.user;
 				//$scope.u.userLetter=obj1.username.charAt(0).toUpperCase();
+				$window.location.href = './dash.html';
 				return;
 			})
 			;
