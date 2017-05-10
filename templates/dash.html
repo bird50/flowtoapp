@@ -5,25 +5,6 @@
 {%block body_tag%} ng-app="flowtong" ng-controller="LoginCtrl" ng-cloak{%endblock%}
 {%block content%}
 <div layout="column" flex layout-fill>
-	<md-content>
-	<div class="container">
-		<div class="head-logo">
-			<a href="#"><img src="images/logo.png" alt=" "></a>
-		</div>
-{%verbatim%}
-		<div class="top-nav">
-			<span class="menu"><img src="images/menu.png" alt="" /></span>
-				<ul class="nav1">
-					<li ng-if="u.avatar.length==1"><ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;"></ng-avatar></li>
-					<li ng-if="u.avatar.length !=1">{{u.avatar}}</li>
-					<li><a href="profile.html">{{u.email}}</a></li>
-					<li><a href="./map.html">MAP</a></li>
-					<div class="clearfix"> </div>
-				</ul>
-		</div>
-{%endverbatim%}
-		<div class="clearfix"> </div>
-	</md-content>
 </div>
 {%endblock%}
 
