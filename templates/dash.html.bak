@@ -1,0 +1,68 @@
+{%extends "_base.html"%}
+{%block js%}
+{{super()}}
+<script src="js/angular-file-upload.min.js"></script>
+<script src="js/load-image.all.min.js"></script>
+<script src="js/load-image-exif-map.js"></script>
+{%endblock%}
+{%block body_tag%} ng-app="flowtong" ng-controller="LoginCtrl" ng-cloak{%endblock%}
+{%block headermenu%}
+	<div id="home" class="banner" >
+	<div class="container">
+		<div class="head-logo">
+			<a href="#"><img src="images/logo.png" alt=" "></a>
+		</div>
+{%verbatim%}
+		<div class="top-nav">
+			<span class="menu"><img src="images/menu.png" alt="" /></span>
+				<ul class="nav1">
+					<li ng-if="u.avatar.length==1"><ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;"></ng-avatar></li>
+					<li ng-if="u.avatar.length !=1">{{u.avatar}}</li>
+					<li><a href="profile.html">{{u.email}}</a></li>
+					<li><a href="./map.html">MAP</a></li>
+					<div class="clearfix"> </div>
+				</ul>
+		</div>
+{%endverbatim%}
+		<div class="clearfix"> </div>
+{%endblock%}
+		{%block headerinfo%}
+		<div class="banner-info">
+			<div ng-if="!islogin">
+			<h2>THIS TOOL</h2>
+			<p>นี่คือเครื่องมือสำหรับรายงานสถานการณ์ รวมถึงติดตามนโยบายที่สำคัญ ๆ ของ{{APP_OWNNER}} </p>
+			
+			<form ng-submit="login();">
+				<input type="text" placeholder="ENTER EMAIL (Gmail)" required=" " ng-model="credentials.email">				
+				<input style="margin-left:10px;" type="password" placeholder="PASSWORD" required=" " ng-model="credentials.password">
+				<div class="clearfix"> </div>
+				<input type="submit" value="LOGIN" > <a style="margin: 2.5em 0 1em;	padding: 10px 25px;float:left;" href="#" ng-click="register();">register</a>
+			</form>
+			<div class="clearfix"> </div>
+			</div><!--ng-if-->
+			<div ng-if="islogin">
+			<div id="user-dashboard">
+{%include "_user-dashboard.inc"%}
+			</div>
+			<div class="clearfix"> </div>
+			</div><!--ng-if-->
+		</div><!--banner-info-->
+<!--	<div class="banner-icons" style="margin-left:10px;">
+			<ul>
+				<li><a href="#" class="gmail"> </a></li>
+				<li><span style="margin: 0em 0 1em;	padding: 10px 25px;float:left;">Login with Gmail</span></li>
+			</ul>
+		</div>
+		-->	
+		{%endblock%}
+{%block content%}
+<div id="service" class="service"><!--for map section-->
+	<button ng-click="msgUsername();">check username</button>
+	<button ng-click="mediaexist('hhhhhhhh');">check media container</button>
+<div class="container">
+</div><!--container service(map)-->
+</div><!--service(map)-->	
+{%endblock%}
+
+
+

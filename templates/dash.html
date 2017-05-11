@@ -6,17 +6,47 @@
 {%block body_tag%} ng-app="flowtong" ng-controller="LoginCtrl" ng-cloak{%endblock%}
 {%block content%}
 <div layout="column" flex layout-fill>
+	
 	<md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools">
-			<img src="images/logo.png" alt="" />
+			<strong>FLOWTO</strong>
 			<span flex></span>
+			<span ng-if="u.avatar.length==1"><ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;"></ng-avatar></span>
 			<img src="images/menu.png" alt="" />
 		</div>
 	</md-toolbar>
+	
 	<md-content>
 	<section>
-	<md-subheader class="md-accent">Archived messages</md-subheader>
-	
+	<md-subheader class="md-accent" >
+	{%include "_user-dashboard.inc"%}
+	</md-subheader>
+{%verbatim%}
+	<md-list flex>
+	<md-subheader>
+	<div layout="row" flex>
+		<div flex="25" class="col-md-4">Assignment list </div>
+		<div flex="50" class="col-md-5">
+			<md-input-container>
+				<label>Filter</label>
+				<input  name="searchText" ng-model="searchText"/>
+			</md-input-container>
+		</div>
+		<div flex="25" class="col-md-3">
+			<md-button class="md-warn md-fab" ng-click="CreateAssignmentForm($event)">+</md-button>
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	</md-subheader>
+		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText" >
+	    <img ng-src="{{item.avatar}}" class="md-avatar" alt="{{item.assignmentName}}" />
+	             <div class="md-list-item-text" layout="column" flex>
+	               <h3>{{ item.assignmentName }}</h3>
+	               <p>{{item.id}}:{{ item.description }}</p>
+	             </div>
+		<span><md-button ng-click="showListBottomSheet(item.id);">click</md-button></span>
+	</md-list>
+{%endverbatim%}
 	</section>
 	</md-content>
 </div>

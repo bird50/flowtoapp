@@ -225,7 +225,7 @@ var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click'
 		    where: {
 		      assignmentId: 1
 		    },
-			limit:100
+			limit:1000
 		  }
 		}).$promise
 		.then(function(data){

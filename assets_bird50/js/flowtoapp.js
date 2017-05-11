@@ -1,6 +1,6 @@
 //flowtoapp
-angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload','ngAvatar'])
-.controller('LoginCtrl', function($scope, FlowtoUser, $location,$window,flowtoMsg,Media,APIsEndPoint) {
+angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload','ngAvatar','ngMaterial'])
+.controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog) {
 	$scope.credentials={};
 	$scope.u={}; // for keep user detail
 	$scope.islogin=FlowtoUser.isAuthenticated();
@@ -32,6 +32,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 			console.log($scope.loginResult);
 			//console.log($scope.token);
 	};
+	
 	$scope.logout=function(){
 		return FlowtoUser.logout(function(){
 			$scope.islogin=FlowtoUser.isAuthenticated();
@@ -68,6 +69,124 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		);
 		//alert(create_container);
 		return create_container;
+	};
+	///// assignment
+	
+	$scope.assignments=[];
+	$scope.modelassignments = Assignment.find({ 
+		//include:'flowto',
+	  filter: {
+	   // where: {
+	     // assignmentId: 1
+	    //},
+		limit:1000
+	  }
+	}).$promise
+	.then(function(data){
+		console.log('ass');
+		//$scope.assignments=[];
+		for (var i = 0; i < data.length; i++) {
+			$scope.assignments.push(data[i]);
+		}
+		console.log('total assignments:'+i);
+		//console.log($scope.theassignments);
+	});
+	$scope.refreshAssignment=function(){
+		
+		$scope.modelassignments = Assignment.find({ 
+			//include:'flowto',
+		  filter: {
+		   // where: {
+		     // assignmentId: 1
+		    //},
+			limit:1000
+		  }
+		}).$promise
+		.then(function(data){
+			console.log('ass');
+			$scope.assignments=[];
+			for (var i = 0; i < data.length; i++) {
+				$scope.assignments.push(data[i]);
+			}
+			console.log('total assignments:'+i);
+			//console.log($scope.theassignments);
+		});
+	};
+	
+	$scope.showListBottomSheet=function(assignmentId){
+	    $scope.alert = '';
+	       $mdBottomSheet.show({
+	         templateUrl: 'bottom-sheet-list-template.html',
+	         controller: 'ListBottomSheetCtrl'
+	       }).then(function(clickedItem) {
+	         $scope.alert = clickedItem['name'] + ' clicked!';
+			 
+			 if(clickedItem['name']=='Set As Curent Assignment'){
+				 $scope.u.activateAssignment=assignmentId;
+				 FlowtoUser.prototype$updateAttributes({ id: $scope.uid }, $scope.u);
+				 console.log('set active assignment id to:'+assignmentId);
+			 }
+			 
+			// $scope.u.$save().then(function(){console.log('user active assignment saved');});
+	       }).catch(function(error) {
+	         // User clicked outside or hit escape
+	       });
+	};
+	$scope.CreateAssignmentForm=function(ev){
+	    $mdDialog.show({
+	         controller: 'CreateAssignmentController',
+	         templateUrl: 'createAssignment.tmpl.html',
+	         parent: angular.element(document.body),
+	         targetEvent: ev,
+	         clickOutsideToClose:true,
+	       //  fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+	       })
+	       .then(function(answer) {
+	         $scope.status = 'You said the information was "' + answer + '".';
+			 $scope.refreshAssignment();
+	       }, function() {
+	         $scope.status = 'You cancelled the dialog.';
+	    });
+	};
+})
+.controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
+  $scope.items = [
+	{ name: 'Set As Curent Assignment', icon: 'share-arrow' },
+    { name: 'Flowto-List ', icon: 'upload' },
+    { name: 'Flowto-Map', icon: 'copy' },
+	{ name: 'Share', icon: 'share-arrow' },
+	{ name: 'Edit', icon: 'share-arrow' },
+	{ name: 'Remove', icon: 'share-arrow' },
+
+  ];
+  $scope.listItemClick = function($index) {
+    var clickedItem = $scope.items[$index];
+    $mdBottomSheet.hide(clickedItem);
+  };
+})
+.controller('CreateAssignmentController',function($scope,$mdDialog,Assignment,FlowtoUser){
+	$scope.new_assignment={"assignmentName":"","description":""};
+	$scope.createAssignment=function(){
+		//Assignment.
+		$scope.uid=FlowtoUser.getCurrentId();
+		Assignment.create({ 
+			"assignmentName":$scope.new_assignment.assignmentName,
+			"description":$scope.new_assignment.description,
+			"flowtoUserId":$scope.uid
+		}).$promise
+		.then(function(dat){
+			console.info("createAssignment:"+dat);
+			$mdDialog.hide(dat);
+		},function(err){
+			console.log("create flowto fail");
+		});
+		//console.log('createAssignment ######');
+	};
+	//$scope.createClick=function(data){
+	//	$mdDialog.hide(data);
+	//};
+	$scope.cancel = function() {
+		$mdDialog.cancel();
 	};
 })
 .controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,APIsEndPoint,$interval) {	
