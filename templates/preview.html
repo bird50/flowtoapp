@@ -16,35 +16,29 @@
 			<span ng-if="u.avatar.length==1">
 				<ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;"></ng-avatar>
 			</span>
+			<a href="map.html" class="menu_a">MAP</a>
 	        <md-button class="md-icon-button" aria-label="More">
 	          <md-icon md-svg-icon="images/icons/ic_more_vert_white_24px.svg"></md-icon>
 	        </md-button>
 		</div>
 </md-toolbar>
 <md-content layout="column" layout-fill layout-padding flex style="background:url(../images/banner.jpg) no-repeat 0px 0px;background-size:cover;">
-<md-subheader style="background:url(../images/banner.jpg) no-repeat 0px 0px;background-size:cover;">
-	<!--map menu-->
-	<div layout="row" >
-		<!--<span flex></span><span><a href="map.html" class="scroll">MAP</a></span><div flex="5"></div>-->
-		<span flex></span>
-		<span><a href="map.html" class="menu_a">MAP</a></span>
-		<span style="width:20px;"></span>
-	</div>
-	<!--end map menu-->
+<div style="overflow:scroll;" flex >
 	<!--camera-->
 	<div>
 <!--<input type="file" id="fileinput" accept="image/*"  style="position:absolute;top:-100px;" />-->
 		<input nv-file-select uploader="uploader" type="file" class="flowtobutton" id="fileinput" style="position:absolute;left:-500px;" multiple/>
-		<div><button class="flowtobutton" onclick="$('#fileinput').trigger('click');" href="preview.html"><img src="images/ic_camera_alt_black_48dp.png">Take a FLOWTO </button></div>
+		<md-button class="md-warn md-fab md-fab-top-right"  onclick="$('#fileinput').trigger('click');" href="#"><img style="height:24px;width:24px;" src="images/ic_camera_alt_black_48dp.png"></md-button>
 	</div><!--end camera-->
-</md-subheader>
-<div style="overflow:scroll;" flex >
 {%include "_preview.inc"%}
 </div>
 {%verbatim%}
-<div  class="md-padding"><!--footer-->
-<md-progress-linear md-mode="determinate" md-diameter="50" value="{{progress_upload}}"  class="md-hue-2" ng-show="progress_upload_show"> </md-progress-linear>
-<md-button ng-click="flowtoUploadAll();" class="flowtobutton">UPLOAD</md-button>
+
+<div layout="row"><!--footer-->
+<span flex="20">
+<md-button ng-click="flowtoUploadAll();" class="md-raised md-warn">UPLOAD</md-button>
+</span>
+<md-progress-linear md-mode="determinate" md-diameter="50" flex value="{{progress_upload}}"  class="md-hue-2" ng-show="progress_upload_show"> </md-progress-linear>
 </div><!--footer-->
 </md-content>
 </div><!--endpage-->
