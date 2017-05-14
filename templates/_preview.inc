@@ -8,33 +8,28 @@
 </p>
 </div>
 -->
-<h1>PREVIEW</h1>
-<div ng-repeat="ft in uploader.queue" >
-<div class="thumbnail">
-<div class="col-md-6 col-sd-6 col-xs-6">
-<img ng-src="{{ft.imgsrc}}" style="width:100%;height:auto;">
+<md-card class="md-whiteframe-3dp" ng-repeat="ft in uploader.queue" style="padding:5px;">
+<div layout="row" layout-wrap layout-padding>
+	<div flex-gt-xs="50" flex-xs="100" layout="column">
+	<img ng-src="{{ft.imgsrc}}" style=" display: block;
+  max-height:350px;
+  width: 100%;
+  object-fit: contain;">
+<md-input-container class="md-block">
+          <label>CAPTION...</label>
+          <textarea ng-model="ft.flowto.caption"  rows="5" md-select-on-focus></textarea>
+</md-input-container>
+	</div>
+	<span flex-gt-xs="5" hide-xs></span>
+	<div flex-gt-xs="45" flex-xs="100">
+		<p><label>Latitude :</label>{{ft.exif.lat}}</p>
+		<p><label>Longitude :</label>{{ft.exif.lng}}</p>
+		<p><label>Date Time :</label>{{ft.exif.DateTime.human}}</p>
+		<p><md-button class="md-warn md-raised" ng-click="ft.remove();">remove</md-button></p>
+	</div>
 </div>
-<div class="col-md-6 col-sd-6 col-xs-6">
-<!--<p><label>File Name :</label>{{ft.file.name}}</p>-->
-<p><label>Latitude :</label>{{ft.exif.lat}}</p>
-<p><label>Longitude :</label>{{ft.exif.lng}}</p>
-<p><label>Date Time :</label>{{ft.exif.DateTime.human}}</p>
-<p><md-button class="md-warn md-raised" ng-click="ft.remove();">remove</md-button></p>
-</div>
-<div class="clearfix"></div>
-<div class="contact">
-	<textarea type="text" ng-model="ft.flowto.caption" placeholder="CAPTION..." ></textarea>
-</div>
-<!--<md-input-container class="md-block">
-	<label>Caption</label>
-	<textarea  place-holder="Caption for your Flowto" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-</md-input-container>-->
- </div>
-</div><!--ng repeat-->
-<center>
-<md-progress-linear md-mode="determinate" md-diameter="50" value="{{progress_upload}}"  class="md-hue-2" ng-show="progress_upload_show"> </md-progress-linear>
-</center>
-	<center><button ng-click="flowtoUploadAll();" class="flowtobutton">UPLOAD</button></center>
+</md-card><!--ng repeat-->
+
 {%endverbatim%}
 
 

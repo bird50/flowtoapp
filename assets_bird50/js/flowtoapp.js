@@ -1,12 +1,78 @@
 //flowtoapp
 angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload','ngAvatar','ngMaterial'])
+.controller('indexCtrl',function($scope, FlowtoUser, $location,$window,flowtoMsg,APIsEndPoint,$mdDialog) {
+	$scope.credentials={};
+	$scope.u={}; // for keep user detail
+	$scope.islogin=FlowtoUser.isAuthenticated();
+	$scope.assignment={};
+	if($scope.islogin){
+		$scope.uid=FlowtoUser.getCurrentId();
+		$scope.u=FlowtoUser.findById({"id":$scope.uid}).$promise
+		.then(function(data){
+			$scope.assignment=Assignment.findById({"id":data.activateAssignment})
+			.$promise.then(function(dat){
+				$scope.assignmentName=dat.assignmentName;
+			console.log(JSON.stringify(dat));
+			});
+			//console.log('assignment name:'+JSON.stringify(data));
+		});
+		//$scope.u.userLetter=$scope.u.username.toUpperCase();
+		//console.log($scope.u.userLetter);
+	}
+	$scope.login = function() {
+		//console.log($scope.credentials);
+		$scope.loginResult = FlowtoUser.login($scope.credentials,
+			function(obj) {
+				$scope.uid=FlowtoUser.getCurrentId();
+				$scope.islogin=FlowtoUser.isAuthenticated();
+				flowtoMsg.alert('Login Successful');
+			},function(res) {
+				$scope.islogin=false;
+				console.log('Login miss by'+$scope.credentials.email);
+				flowtoMsg.alert('Login Fail!!!');
+			}).$promise.then(function(obj1){
+				$scope.u=obj1.user;
+				//$scope.u.userLetter=obj1.username.charAt(0).toUpperCase();
+				$window.location.href = './dash.html';
+				return;
+			})
+			;
+			//$scope.token=User.accessTokens({"id":$scope.uid});
+			console.log($scope.loginResult);
+			//console.log($scope.token);
+	};
+	
+	$scope.logout=function(){
+		return FlowtoUser.logout(function(){
+			$scope.islogin=FlowtoUser.isAuthenticated();
+			console.log('logout');
+		});
+	};
+	
+	$scope.register=function(){
+		flowtoMsg.alert('ขออภัย ยังไม่เปิดการรับสมัครสมาชิกในตอนนี้');
+	};
+	
+	$scope.msgUsername=function(){
+		alert($scope.u.username);
+	};
+})
 .controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog) {
 	$scope.credentials={};
 	$scope.u={}; // for keep user detail
 	$scope.islogin=FlowtoUser.isAuthenticated();
+	$scope.assignment={};
 	if($scope.islogin){
 		$scope.uid=FlowtoUser.getCurrentId();
-		$scope.u=FlowtoUser.findById({"id":$scope.uid});
+		$scope.u=FlowtoUser.findById({"id":$scope.uid}).$promise
+		.then(function(data){
+			$scope.assignment=Assignment.findById({"id":data.activateAssignment})
+			.$promise.then(function(dat){
+				$scope.assignmentName=dat.assignmentName;
+			console.log(JSON.stringify(dat));
+			});
+			//console.log('assignment name:'+JSON.stringify(data));
+		});
 		//$scope.u.userLetter=$scope.u.username.toUpperCase();
 		//console.log($scope.u.userLetter);
 	}
@@ -113,7 +179,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		});
 	};
 	
-	$scope.showListBottomSheet=function(assignmentId){
+	$scope.showListBottomSheet=function(assignmentId,assignmentName){
 	    $scope.alert = '';
 	       $mdBottomSheet.show({
 	         templateUrl: 'bottom-sheet-list-template.html',
@@ -124,6 +190,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 			 if(clickedItem['name']=='Set As Curent Assignment'){
 				 $scope.u.activateAssignment=assignmentId;
 				 FlowtoUser.prototype$updateAttributes({ id: $scope.uid }, $scope.u);
+				 $scope.assignmentName=assignmentName;
 				 console.log('set active assignment id to:'+assignmentId);
 			 }
 			 

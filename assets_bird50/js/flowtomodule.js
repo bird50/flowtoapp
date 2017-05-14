@@ -73,7 +73,7 @@ angular.module('flowtomodule',['ngMaterial'])
     .primaryPalette('teal')
     .accentPalette('green')
 	.warnPalette('deep-orange')
-	.dark();
+	//.dark();
 })
 //.constant('MediaEndPoint',{'url':'http://bid.rid.go.th:3001/flowtofiles'})
 //.constant('APIsEndPoint',{

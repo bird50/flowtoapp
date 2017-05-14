@@ -24,7 +24,7 @@ body,html{
 	display:block;
 	}
 .top-nav{
-	float:right;
+	/*float:right;*/
 	}
 .top-nav span{
 	display:none;
@@ -37,6 +37,22 @@ body,html{
 	display:inline-block;
 	margin: 0px 1em;
 	}
+.menu_a{
+	color:#fff;
+	font-size:14px;
+	font-weight: 600;
+}
+.menu_a:hover{
+	text-decoration:none;
+	color:#A2A2A2;
+	transition:.5s all;
+	-webkit-transition:.5s all;
+	-moz-transition:.5s all;
+	-o-transition:.5s all;
+	-ms-transition:.5s all;
+	border-bottom:2px solid #F66667;
+	padding: .5em 0;
+}
 .top-nav ul li a{
 	color:#fff;
 	font-size:14px;
