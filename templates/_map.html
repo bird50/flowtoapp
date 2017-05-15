@@ -43,14 +43,15 @@
 <div flex layout="row">
 {%verbatim%}
  <md-toolbar class="md-primary">
-      <div class="md-toolbar-tools">
-        <a href="./dash.html">back</a><md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+      <div class="md-toolbar-tools" layout-padding>
+        <a href="./dash.html" class="menu_a">assignment</a><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
           <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
-        </md-button>
+        </md-button>--> 
+		<span flex layout="row">
         <h2>
-          <span>assignment - {{assignmentName}}</span>
+          <span>- {{assignmentName}}</span>
         </h2>
-        <span flex></span>
+	    </span>
         <md-button class="md-icon-button" aria-label="More">
           <md-icon md-svg-icon="images/icons/ic_more_vert_white_24px.svg"></md-icon>
         </md-button>

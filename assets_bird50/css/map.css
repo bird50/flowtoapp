@@ -93,18 +93,23 @@ h3 {
 .leaflet-popup-photo p {
 	margin: 5px 0 0 0;
 }
-
+.flowtoCover{
+  width: 320px;
+  height: auto;
+  overflow:scroll;
+}
 .flowtoInMap{
-	/*display: block;
+	display: block;
 	  max-width:320px;
-	  max-height:420px;
-	  width: auto;
+	  max-height:380px;
+	  width: 320px;
 	  height: auto;
-	*/
+	  /*
 	  display: block;
 	   max-height:420px;
 	   width: 100%;
 	   object-fit: contain;
+	*/
 }
 .flowtoInMapTbl{
 	display: block;

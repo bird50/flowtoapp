@@ -11,7 +11,7 @@ const map4 = L.map('example4').setView([13.7882305556,100.5101], 13);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map4);
-var template_popup='<img src="{url}" class="flowtoInMap"/>'+
+var template_popup='<div class="flowtoCover"><img src="{url}" class="flowtoInMap"/></div>'+
 '<table class="flowtoinfo">'+
 '<tr><td width="80%" style="word-wrap:break-word;"><div class="flowtocaption">{caption}</div></td>'+
 '<td width="20%" align="right">'+
