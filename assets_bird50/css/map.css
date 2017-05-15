@@ -95,16 +95,21 @@ h3 {
 }
 
 .flowtoInMap{
-	display: block;
+	/*display: block;
 	  max-width:320px;
 	  max-height:420px;
 	  width: auto;
 	  height: auto;
+	*/
+	  display: block;
+	   max-height:420px;
+	   width: 100%;
+	   object-fit: contain;
 }
 .flowtoInMapTbl{
 	display: block;
-	  max-width:320px;
-	  max-height:420px;
+	  max-width:280px;
+	  max-height:390px;
 	  width: auto;
 	  height: auto;
 }

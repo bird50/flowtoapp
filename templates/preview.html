@@ -8,11 +8,13 @@
 {%endblock%}
 {%block body_tag%} ng-app="flowtong" ng-controller="PreviewCtrl" ng-cloak{%endblock%}
 {%block content%}
+
 <div layout="column" flex layout-fill ><!--startpage-->
+{%verbatim%}
 <md-toolbar md-scroll-shrink>
 		<div class="md-toolbar-tools" layout="row">
 			<a href="./dash.html">back</a>
-			<span flex></span>
+			<div flex layout="row" layout-align="center" ><div  style="overflow: hidden;text-overflow: ellipsis; width: 400px;"><small>assignment:</small><strong><a class="menu_a" ng-click="null">{{assignmentName}}</a></strong></div></div>
 			<span ng-if="u.avatar.length==1">
 				<ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;"></ng-avatar>
 			</span>
@@ -22,6 +24,7 @@
 	        </md-button>
 		</div>
 </md-toolbar>
+{%endverbatim%}
 <md-content layout="column" layout-fill layout-padding flex style="background:url(../images/banner.jpg) no-repeat 0px 0px;background-size:cover;">
 <div style="overflow:scroll;" flex >
 	<!--camera-->

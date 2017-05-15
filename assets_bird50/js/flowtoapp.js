@@ -1,23 +1,26 @@
 //flowtoapp
 angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload','ngAvatar','ngMaterial'])
-.controller('indexCtrl',function($scope, FlowtoUser, $location,$window,flowtoMsg,APIsEndPoint,$mdDialog) {
+.controller('indexCtrl',function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,APIsEndPoint,$mdDialog) {
 	$scope.credentials={};
 	$scope.u={}; // for keep user detail
 	$scope.islogin=FlowtoUser.isAuthenticated();
 	$scope.assignment={};
 	if($scope.islogin){
 		$scope.uid=FlowtoUser.getCurrentId();
-		$scope.u=FlowtoUser.findById({"id":$scope.uid}).$promise
+		FlowtoUser.findById({"id":$scope.uid}).$promise
 		.then(function(data){
+			$scope.u=data;
+			console.log(data);
 			$scope.assignment=Assignment.findById({"id":data.activateAssignment})
 			.$promise.then(function(dat){
 				$scope.assignmentName=dat.assignmentName;
 			console.log(JSON.stringify(dat));
 			});
 			//console.log('assignment name:'+JSON.stringify(data));
+			//console.log(JSON.stringify($scope.u));
 		});
 		//$scope.u.userLetter=$scope.u.username.toUpperCase();
-		//console.log($scope.u.userLetter);
+		
 	}
 	$scope.login = function() {
 		//console.log($scope.credentials);
@@ -64,17 +67,19 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	$scope.assignment={};
 	if($scope.islogin){
 		$scope.uid=FlowtoUser.getCurrentId();
-		$scope.u=FlowtoUser.findById({"id":$scope.uid}).$promise
+		FlowtoUser.findById({"id":$scope.uid}).$promise
 		.then(function(data){
+			$scope.u=data;
 			$scope.assignment=Assignment.findById({"id":data.activateAssignment})
 			.$promise.then(function(dat){
 				$scope.assignmentName=dat.assignmentName;
 			console.log(JSON.stringify(dat));
 			});
-			//console.log('assignment name:'+JSON.stringify(data));
+			console.log('assignment name:'+JSON.stringify(data));
 		});
 		//$scope.u.userLetter=$scope.u.username.toUpperCase();
 		//console.log($scope.u.userLetter);
+		//console.log($scope.u.username);
 	}
 	$scope.login = function() {
 		//console.log($scope.credentials);
@@ -140,8 +145,8 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	
 	$scope.assignments=[];
 	$scope.modelassignments = Assignment.find({ 
-		//include:'flowto',
 	  filter: {
+		  include:['flowto','flowtoUser'],
 	   // where: {
 	     // assignmentId: 1
 	    //},
@@ -149,19 +154,20 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	  }
 	}).$promise
 	.then(function(data){
-		console.log('ass');
+		//console.log('ass');
 		//$scope.assignments=[];
 		for (var i = 0; i < data.length; i++) {
-			$scope.assignments.push(data[i]);
+			$scope.assignments.push(data[i].toJSON());
 		}
 		console.log('total assignments:'+i);
-		//console.log($scope.theassignments);
+		console.log($scope.assignments);
 	});
 	$scope.refreshAssignment=function(){
 		
 		$scope.modelassignments = Assignment.find({ 
-			//include:'flowto',
+
 		  filter: {
+			    include:['flowto','flowtoUser'],
 		   // where: {
 		     // assignmentId: 1
 		    //},
@@ -172,7 +178,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 			console.log('ass');
 			$scope.assignments=[];
 			for (var i = 0; i < data.length; i++) {
-				$scope.assignments.push(data[i]);
+				$scope.assignments.push(data[i].toJSON());
 			}
 			console.log('total assignments:'+i);
 			//console.log($scope.theassignments);
@@ -256,7 +262,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		$mdDialog.cancel();
 	};
 })
-.controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,APIsEndPoint,$interval) {	
+.controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,Assignment,APIsEndPoint,$interval) {	
 	// init 
 	// 1) check if logedin
 	// 2) create folder for upload media by username
@@ -271,6 +277,12 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 			function(data){
 				$scope.u=data;
 				$scope.media_container_name='v1_'+moment().format('YYYY-MM')+'_'+$scope.u.username;
+				$scope.assignment=Assignment.findById({"id":data.activateAssignment})
+					.$promise.then(function(dat){
+						$scope.assignmentName=dat.assignmentName;
+						$scope.assignmentId=dat.id;
+						console.log(JSON.stringify(dat));
+				});
 				return create_media_container($scope.media_container_name);
 			},function(){
 				$scope.media_container_name='_v1_'+moment().format('YYYY-MM')+'__Anonymous';
@@ -432,7 +444,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		  console.log('Caption:'+item.flowto.caption);
 		  $scope.progress_upload_show=false;
 	      $scope.$broadcast('uploadCompleted', item);
-		   $scope.saveuploaded_flowto(item.file.name,$scope.media_container_name,item.flowto.caption,item.exif.DateTime.moment,$scope.uid,1,item.exif.lat,item.exif.lng);
+		  console.log('as_id:'+$scope.assignmentId); $scope.saveuploaded_flowto(item.file.name,$scope.media_container_name,item.flowto.caption,item.exif.DateTime.moment,$scope.uid,$scope.assignmentId,item.exif.lat,item.exif.lng);
 	    };
 		
 		
@@ -518,7 +530,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 				"media_name":media_name,
 				"media_container":media_container,
 				"flowtoUserId":$scope.uid,
-				"assignmentId":1
+				"assignmentId":assignmentId
 			}).$promise
 			.then(function(dat){
 				console.info("createFlowto:"+dat);
