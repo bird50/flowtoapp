@@ -94,15 +94,15 @@ h3 {
 	margin: 5px 0 0 0;
 }
 .flowtoCover{
-  width: 320px;
+  width: 200px;
   height: auto;
   overflow:scroll;
 }
 .flowtoInMap{
 	display: block;
-	  max-width:320px;
-	  max-height:380px;
-	  width: 320px;
+	  max-width:200px;
+	  max-height:280px;
+	  width: 200px;
 	  height: auto;
 	  /*
 	  display: block;

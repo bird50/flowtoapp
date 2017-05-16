@@ -22,8 +22,8 @@ var template_popup='<div class="flowtoCover"><img src="{url}" class="flowtoInMap
 var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click', function (evt) {
 		evt.layer.bindPopup(L.Util.template(template_popup, evt.layer.photo), {
 			className: 'leaflet-popup-photo',
-			minWidth: 320,
-			maxWidth:390
+			minWidth: 200, //320
+			//maxWidth:390
 		}).openPopup();
 });
 
