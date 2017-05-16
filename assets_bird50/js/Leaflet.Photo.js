@@ -55,7 +55,7 @@ if (L.MarkerClusterGroup) {
 		   	},	
 			icon: {						
 				iconSize: [40, 40]
-			}		   		
+			}	
 		},
 
 		initialize: function (options) {	
