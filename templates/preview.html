@@ -33,7 +33,7 @@
 	<!--camera-->
 	<div>
 <!--<input type="file" id="fileinput" accept="image/*"  style="position:absolute;top:-100px;" />-->
-		<input nv-file-select uploader="uploader" type="file" class="flowtobutton" id="fileinput" style="position:absolute;left:-500px;" multiple/>
+		<input nv-file-select uploader="uploader" type="file" accept="image/*" class="flowtobutton" id="fileinput" style="position:absolute;left:-500px;" multiple/>
 		<md-button class="md-warn md-fab md-fab-top-right"  onclick="$('#fileinput').trigger('click');" href="#"><img style="height:24px;width:24px;" src="images/ic_camera_alt_black_48dp.png"></md-button>
 	</div><!--end camera-->
 {%include "_preview.inc"%}

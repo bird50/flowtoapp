@@ -373,6 +373,11 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
     	        item._file,
     	        function (data) {
     	            //alert('loaded');
+					if(!data.exif){
+						flowtoMsg.alert('ไม่สามารถอ่านค่าพิกัดได้!!!');
+						item.remove();
+						//return;
+					}else{
   	  				item.exif.lat=parseLatvalue(data.exif.get('GPSLatitude'));
   	  				item.exif.lng=parseLatvalue(data.exif.get('GPSLongitude'));
 					item.exif.DateTime= exifDate2moment(data.exif.get('DateTime'));//data.exif.get('DateTime');
@@ -390,6 +395,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
     				//DateTime
     				//alert('GPSLongitude:'+ GPSLongitude);
 					//item._file=getThumbnail_blob(item._file);
+					}
     	        },
     	        { 
 					maxMetaDataSize: 262144,
