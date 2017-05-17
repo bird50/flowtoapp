@@ -7,7 +7,7 @@ const m2 = L.marker([51.50614, -0.0989]);
 const m3 = L.marker([51.50915, -0.096112]);
 
 const map4 = L.map('example4').setView([13.7882305556,100.5101], 13);
-
+map4.attributionControl.setPrefix(false); // remov leaflet attribution
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map4);
