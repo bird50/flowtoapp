@@ -20,6 +20,10 @@
 		  	<label>Description</label>
 			<textarea ng-model="new_assignment.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
 		  </md-input-container>
+		  <md-input-container >
+		  <label>Important Rate</label>
+		  <md-slider flex class="md-primary" md-discrete ng-model="new_assignment.priority" step="1" min="1" max="5" aria-label="rating">
+		  </md-input-container>
       </div>
     </md-dialog-content>
 

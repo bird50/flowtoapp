@@ -150,6 +150,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	   // where: {
 	     // assignmentId: 1
 	    //},
+		"order":["priority DESC","id DESC"],
 		limit:1000
 	  }
 	}).$promise
@@ -171,6 +172,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		   // where: {
 		     // assignmentId: 1
 		    //},
+			"order":["priority DESC","id DESC"],
 			limit:1000
 		  }
 		}).$promise
@@ -198,6 +200,8 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 				 FlowtoUser.prototype$updateAttributes({ id: $scope.uid }, $scope.u);
 				 $scope.assignmentName=assignmentName;
 				 console.log('set active assignment id to:'+assignmentId);
+			 }else if(clickedItem['name']=='Flowto-Map'){
+			 	$window.location.href = './map.html?asid='+assignmentId;
 			 }
 			 
 			// $scope.u.$save().then(function(){console.log('user active assignment saved');});
@@ -225,11 +229,11 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 .controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
   $scope.items = [
 	{ name: 'Set As Curent Assignment', icon: 'share-arrow' },
-    { name: 'Flowto-List ', icon: 'upload' },
+    //{ name: 'Flowto-List ', icon: 'upload' },
     { name: 'Flowto-Map', icon: 'copy' },
-	{ name: 'Share', icon: 'share-arrow' },
-	{ name: 'Edit', icon: 'share-arrow' },
-	{ name: 'Remove', icon: 'share-arrow' },
+	//{ name: 'Share', icon: 'share-arrow' },
+	//{ name: 'Edit', icon: 'share-arrow' },
+//	{ name: 'Remove', icon: 'share-arrow' },
 
   ];
   $scope.listItemClick = function($index) {
@@ -238,14 +242,15 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
   };
 })
 .controller('CreateAssignmentController',function($scope,$mdDialog,Assignment,FlowtoUser){
-	$scope.new_assignment={"assignmentName":"","description":""};
+	$scope.new_assignment={"assignmentName":"","description":"","priority":3};
 	$scope.createAssignment=function(){
 		//Assignment.
 		$scope.uid=FlowtoUser.getCurrentId();
 		Assignment.create({ 
 			"assignmentName":$scope.new_assignment.assignmentName,
 			"description":$scope.new_assignment.description,
-			"flowtoUserId":$scope.uid
+			"flowtoUserId":$scope.uid,
+			"priority":$scope.new_assignment.priority
 		}).$promise
 		.then(function(dat){
 			console.info("createAssignment:"+dat);

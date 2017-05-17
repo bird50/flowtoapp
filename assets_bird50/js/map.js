@@ -38,7 +38,15 @@ var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click'
 		.then(function(data){
 			$scope.u=data;
 			console.log(data);
-			$scope.assignment=Assignment.findById({"id":data.activateAssignment})
+			var asid_form_param = $scope.getParameterByName('asid',$location.absUrl());
+			var assignmentIdToFind=1;
+			if( !asid_form_param){
+				assignmentIdToFind=data.activateAssignment;
+			}else{
+				assignmentIdToFind=asid_form_param;
+			}
+			console.log('assignmentIdToFind:'+assignmentIdToFind);
+			$scope.assignment=Assignment.findById({"id":assignmentIdToFind})
 			.$promise.then(function(dat){
 				$scope.assignmentName=dat.assignmentName;
 				$scope.assignmentId=dat.id;
@@ -321,7 +329,15 @@ layerGroup.on('pm:markerdragend', (e) => {
 
 //	};//function
 
-
+$scope.getParameterByName=function(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+};
 
 	
 // test with markercluster
@@ -345,5 +361,6 @@ layerGroup.on('pm:markerdragend', (e) => {
   $mdThemingProvider.theme('default')
     .primaryPalette('teal')
     .accentPalette('deep-orange');
-});
+})
+
 ;

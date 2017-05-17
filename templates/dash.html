@@ -7,41 +7,54 @@
 {%block content%}
 <div layout="column" flex layout-fill>
 {%verbatim%}
+<md-fab-speed-dial md-open="demo.isOpen" md-direction="up" class="md-fling md-fab-bottom-right">
+	<md-fab-trigger>
+		<md-button aria-label="menu" class="md-fab md-warn ">
+			<img style="height:24px;width:24px;" src="images/menu_l.png">
+		</md-button>
+	</md-fab-trigger>
+	<md-fab-actions>
+	<md-button class="md-accent md-fab"  ng-click="CreateAssignmentForm($event)" href="#"><img style="height:24px;width:24px;" aria-label="Create Assignment" src="images/ic_add_black_24dp_2x.png"></md-button>
+	<md-button class="md-accent md-fab " aria-label="Take a Flowto" ng-click="null" href="#"><a href="preview.html"><img style="height:24px;width:24px;" src="images/ic_camera_alt_black_48dp.png"></a></md-button>
+	</md-fab-actions>
+</md-fab-speed-dial>
+						 <!--
+<md-button class="md-warn md-fab md-fab-top-right"  ng-click="null" href="#"><img style="height:24px;width:24px;" src="images/ic_add_black_24dp_2x.png"></md-button>
+<md-button class="md-warn md-fab md-fab-bottom-right"  ng-click="null" href="#"><img style="height:24px;width:24px;" src="images/menu_l.png"></md-button>
+-->
+
 <md-toolbar md-scroll-shrink>
-		<div class="md-toolbar-tools">
-			<strong>FLOWTO</strong>
-			<span flex></span>
+		<div class="md-toolbar-tools" layout="row" layout-padding layout-fill>
+			<md-button><a href="index.html"><strong>FLOWTO</strong></a></md-button>
+			<div flex style="overflow:hidden;text-overflow: ellipsis; width: 400px;"><span style="color:#b6b2b7;"> - assignment: </span><a class="menu_a" ng-click="null">{{assignmentName}}</a>
+			</div>
 			<span ng-if="u.avatar.length==1"><a href="./profile.html"><ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;" width="36"></ng-avatar></a></span><span>{{u.username}}</span>
 		</div>
 </md-toolbar>
 {%endverbatim%}
 <md-content>
+
 <section>
-	<md-subheader class="md-accent" layout-align="center center" layout="column">
-	{%include "_user-dashboard.inc"%}
-	</md-subheader>
-</section>
-<section>
+	{%verbatim%}
 	<md-subheader class="md-accent" layout-align="center" layout="column">
-	
 	<div layout="row" flex>
-		<div flex="25" >Assignment list </div>
-		<div flex="50">
+		<div ><h2>Assignment list</h2></div>
+		<span flex="5"></span>
+		<div flex>
 			<md-input-container>
 				<label>Filter</label>
 				<input  name="searchText" ng-model="searchText"/>
 			</md-input-container>
-		</div>
-		<div flex="25" >
-			<md-button class="md-warn md-fab" ng-click="CreateAssignmentForm($event)">+</md-button>
+			<span>Total : {{filtered.length}}</span>
 		</div>
 	</div>
 	</md-subheader>
+	{%endverbatim%}
 {%verbatim%}
 	<md-list flex class="md-warn">
-		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText">
+		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText as filtered">
 		<div layout="row" layout-fill layout-align="center center"layout-padding flex><!--cover item-->
-		<img ng-src="{{item.avatar}}" class="md-avatar" alt="{{item.assignmentName}}" ng-if="item.avatar!='';"/>
+		<img ng-if="item.avatar;" ng-src="{{item.avatar}}" class="md-avatar" alt="{{item.assignmentName}}" style="width:24px;height:24px;"/>
 	   <div class="md-list-item-text" layout="column" flex>
 		   <h3>{{ item.assignmentName }}</h3>
 		   <p>{{item.id}}:{{ item.description }}</p>
