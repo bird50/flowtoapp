@@ -36,22 +36,24 @@
 <!--<script src="js/reqwest.min.js"></script>-->
 
 {%endblock%}
-
-
 </head>
 <body {%block body_tag%}{%endblock%}>
 <div flex layout="row">
 {%verbatim%}
  <md-toolbar class="md-primary">
-      <div class="md-toolbar-tools" layout-padding>
-        <a href="./dash.html" class="menu_a md-button">assignment</a><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+      <div class="md-toolbar-tools" layout="row" layout-padding>
+        <md-button>
+			<a href="./dash.html" class="menu_a">assignment</a>
+		</md-button><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
           <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
         </md-button>--> 
-		<span flex layout="row">
+		<div style="overflow:hidden;text-overflow:ellipsis; " flex>
+			- {{assignmentName}}
+		</div>
+		<!--
         <h2>
           <span>- {{assignmentName}}</span>
-        </h2>
-	    </span>
+        </h2>-->
         <md-button class="md-icon-button" aria-label="More">
           <md-icon md-svg-icon="images/icons/ic_more_vert_white_24px.svg"></md-icon>
         </md-button>

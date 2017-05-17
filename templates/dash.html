@@ -11,7 +11,7 @@
 		<div class="md-toolbar-tools">
 			<strong>FLOWTO</strong>
 			<span flex></span>
-			<span ng-if="u.avatar.length==1"><a href="./profile.html"><ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;"></ng-avatar></a></span>
+			<span ng-if="u.avatar.length==1"><a href="./profile.html"><ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;" width="36"></ng-avatar></a></span><span>{{u.username}}</span>
 		</div>
 </md-toolbar>
 {%endverbatim%}
@@ -39,21 +39,24 @@
 	</md-subheader>
 {%verbatim%}
 	<md-list flex class="md-warn">
-		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText" >
-		
-		<img ng-src="{{item.avatar}}" class="md-avatar" alt="{{item.assignmentName}}" />
-	             <div class="md-list-item-text" layout="column" flex>
-	               <h3>{{ item.assignmentName }}</h3>
-	               <p>{{item.id}}:{{ item.description }}</p>
-	             </div>
-	   <md-text>by :</md-text>
- 	   <div ><ng-avatar ng-if="item.flowtoUser.avatar.length==1" bind="true" initials="{{item.flowtoUser.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700"></ng-avatar> 
+		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText">
+		<div layout="row" layout-fill layout-align="center center"layout-padding flex><!--cover item-->
+		<img ng-src="{{item.avatar}}" class="md-avatar" alt="{{item.assignmentName}}" ng-if="item.avatar!='';"/>
+	   <div class="md-list-item-text" layout="column" flex>
+		   <h3>{{ item.assignmentName }}</h3>
+		   <p>{{item.id}}:{{ item.description }}</p>
+	   </div>
+	   <div class="md-secondary">
+		   <div layout="row" layout-fill layout-padding layout-align="right center">
+		   <span style="color:#b6b2b7;">by :</span>
+	   <div ng-if="item.flowtoUser.avatar.length==1" style="color:#fff;font-size:20px;background-color:#7b099b;height:24px;width:24px;
+  line-height:24px;text-align:center;border:2px solid #b9bfc9;" class="md-avatar ">{{item.flowtoUser.avatar}}</div> 
 		<span >{{item.flowtoUser.username}}</span>
- 	   </div>
-   
-		<span><md-button ng-click="showListBottomSheet(item.id,item.assignmentName);">click</md-button></span>	
+		<span ><md-button ng-click="showListBottomSheet(item.id,item.assignmentName);">click</md-button></span>	    </div>
+		</div><!--md-secondary-->
+	</div><!--end cover item-->
+	  <md-divider ></md-divider>
 	</md-list-item>
-	<md-divider ></md-divider>
 	</md-list>
 {%endverbatim%}
 	</section>
