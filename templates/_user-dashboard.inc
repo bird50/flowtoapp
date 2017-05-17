@@ -8,8 +8,7 @@
 	</div>
 	<div flex-gt-xs="5" hide-xs><!--blank//--></div>
 	<div flex-gt-xs="40" flex-xs="100" layout="column" >
-		<h2><span>{{assignmentNum}}</span><small>/{{assignmentTotal}}</small></h2>
-		<p>FLOWTOs</p>
+		
 	</div>
 </div>
 {%endverbatim%}

@@ -8,19 +8,16 @@
 							</div>
 							<div class="service-bottom-right">
 								<h2>{{u.username}}</h2>
-								<h3>{{org.name}}</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-								sed do eiusmod <span>tempor incididunt ut labore et dolore magna aliqua.
-								Ut enim ad minim</span> veniam, quis nostrud exercitation ullamco laboris
-								nisi ut aliquip ex ea com-<span>modo consequat. Duis aute irure dolor in 
-								reprehenderit in voluptate velit esse</span> cillum dolore eu 
-								fugiat nulla pariatur anim id est laborum</p>
-								<div class="banner1-icons">
+								<p>
+									Username:{{u.username}}<br/>
+									email:{{u.email}}
+								</p>
+								<!--<div class="banner1-icons">
 									<ul>
 										<li><a href="#" class="facebook1"> </a></li>
 										<li><a href="#" class="twitter1"> </a></li>
 										<li><a href="#" class="in1"> </a></li>
-									</ul>
+									</ul>-->
 									<button class="flowtobutton" ng-click="logout();">Logout</button>
 								</div>
 								<div class="bar">
