@@ -32,7 +32,7 @@
 		</div>
 </md-toolbar>
 {%endverbatim%}
-<md-content>
+<md-content flex>
 
 <section>
 	{%verbatim%}
@@ -51,29 +51,39 @@
 	</md-subheader>
 	{%endverbatim%}
 {%verbatim%}
-	<md-list flex class="md-warn">
-		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText as filtered">
-		<div layout="row" layout-fill layout-align="center center"layout-padding flex><!--cover item-->
+	<md-list >
+		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText as filtered" >
+		<md-divider></md-divider>
+		<div layout="row" layout-wrap layout-fill layout-align="center center"><!--cover-->
+		<!--first-->
+		<div flex-gt-xs="70" flex="100"  layout="row" layout-align="left center" layout-fill>
 		<img ng-if="item.avatar;" ng-src="{{item.avatar}}" class="md-avatar" alt="{{item.assignmentName}}" style="width:24px;height:24px;"/>
-	   <div class="md-list-item-text" layout="column" flex>
+	   <div class="md-list-item-text" layout="column" flex layout-fill layout-align="center left">
 		   <h3>{{ item.assignmentName }}</h3>
 		   <p>{{item.id}}:{{ item.description }}</p>
 	   </div>
-	   <div class="md-secondary">
-		   <div layout="row" layout-fill layout-padding layout-align="right center">
-		   <span style="color:#b6b2b7;">by :</span>
+       </div>
+	   <!--endfirst-->
+	   <!--second-->
+	   <div  class="md-second" flex-gt-xs="30" flex="100"  layout="row" layout-align="right center" layout-padding layout-fill>
+		   <div flex ></div>
+		   <div style="color:#b6b2b7;">by</div>
 	   <div ng-if="item.flowtoUser.avatar.length==1" style="color:#fff;font-size:20px;background-color:#7b099b;height:24px;width:24px;
   line-height:24px;text-align:center;border:2px solid #b9bfc9;" class="md-avatar ">{{item.flowtoUser.avatar}}</div> 
-		<span >{{item.flowtoUser.username}}</span>
-		<span ><md-button ng-click="showListBottomSheet(item.id,item.assignmentName);">click</md-button></span>	    </div>
-		</div><!--md-secondary-->
-	</div><!--end cover item-->
-	  <md-divider ></md-divider>
-	</md-list-item>
+		<span  href="#" style="overflow:hidden;text-overflow: ellipsis; max-width: 200px;">{{item.flowtoUser.username}}</span>
+		<md-button class="md-icon-button md-warn" aria-label="More"
+			ng-click="showListBottomSheet(item.id,item.assignmentName);">
+          <md-icon md-svg-icon="images/icons/ic_more_vert_black_24px.svg"></md-icon>
+        </md-button>
+	</div><!--endsecond-->
+		</div><!--cover-->
+		<md-divider></md-divider>
+		</md-list-item>
 	</md-list>
 {%endverbatim%}
 	</section>
 	</md-content>
+	<div flex="5" class="md-accent" style="background-color:#f9f8f7;" layout="row" layout-align="right center"><span flex></span><small style="color:#abacad;">Flowto:bata version</small><span flex="20"></span></div>
 </div>
 {%endblock%}
 
