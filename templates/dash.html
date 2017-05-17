@@ -45,7 +45,6 @@
 				<label>Filter</label>
 				<input  name="searchText" ng-model="searchText"/>
 			</md-input-container>
-			<span>Total : {{filtered.length}}</span>
 		</div>
 	</div>
 	</md-subheader>
@@ -54,7 +53,7 @@
 	<md-list >
 		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText as filtered" >
 		<md-divider></md-divider>
-		<div layout="row" layout-wrap layout-fill layout-align="center center"><!--cover-->
+		<div layout="row" layout-wrap layout-fill layout-align="cente center"><!--cover-->
 		<!--first-->
 		<div flex-gt-xs="70" flex="100"  layout="row" layout-align="left center" layout-fill>
 		<img ng-if="item.avatar;" ng-src="{{item.avatar}}" class="md-avatar" alt="{{item.assignmentName}}" style="width:24px;height:24px;"/>
@@ -80,11 +79,12 @@
 		<md-divider></md-divider>
 		</md-list-item>
 	</md-list>
-{%endverbatim%}
+
 	</section>
 	</md-content>
-	<div flex="5" class="md-accent" style="background-color:#f9f8f7;" layout="row" layout-align="right center"><span flex></span><small style="color:#abacad;">Flowto:bata version</small><span flex="20"></span></div>
+	<div flex="5" class="md-accent" style="background-color:#f9f8f7;" layout="row" layout-align="right center" layout-padding><span>Total : {{filtered.length}}</span><span flex></span><small style="color:#abacad;">Flowto:bata version</small><span flex="20"></span></div>
 </div>
+{%endverbatim%}
 {%endblock%}
 
 

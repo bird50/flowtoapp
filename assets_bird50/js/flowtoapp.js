@@ -150,7 +150,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	   // where: {
 	     // assignmentId: 1
 	    //},
-		"order":["priority DESC","id DESC"],
+		"order":["priority DESC","create_time DESC"],
 		limit:1000
 	  }
 	}).$promise
@@ -172,7 +172,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		   // where: {
 		     // assignmentId: 1
 		    //},
-			"order":["priority DESC","id DESC"],
+			"order":["priority DESC","create_time DESC"],
 			limit:1000
 		  }
 		}).$promise
@@ -246,11 +246,13 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	$scope.createAssignment=function(){
 		//Assignment.
 		$scope.uid=FlowtoUser.getCurrentId();
+		var thenow=new Date();
 		Assignment.create({ 
 			"assignmentName":$scope.new_assignment.assignmentName,
 			"description":$scope.new_assignment.description,
 			"flowtoUserId":$scope.uid,
-			"priority":$scope.new_assignment.priority
+			"priority":$scope.new_assignment.priority,
+			"create_time":thenow
 		}).$promise
 		.then(function(dat){
 			console.info("createAssignment:"+dat);
