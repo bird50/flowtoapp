@@ -1,6 +1,8 @@
 angular.module('flowtoMap',['ngRoute','lbServices','flowtomodule'])
 .controller('mapCtrl', function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q) {
 	//alert(APIsEndPoint);
+	
+	
 moment.locale('th');
 const m1 = L.marker([51.50313, -0.091223]);
 const m2 = L.marker([51.50614, -0.0989]);
@@ -11,7 +13,7 @@ map4.attributionControl.setPrefix(false); // remov leaflet attribution
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map4);
-var template_popup='<div class="flowtoCover"><img src="{url}" class="flowtoInMap"/></div>'+
+var template_popup='<div class="flowtoCover"><div style="position:absolute;left:180px;top:10px;"><md-button><a href="#" data="{f_id}" ><img src="images/more_vert_white_48x48.png" style="height:16;width:16;"/></a></md-button></div><img src="{url}" class="flowtoInMap"/></div>'+
 '<table class="flowtoinfo">'+
 '<tr><td width="80%" style="word-wrap:break-word;"><div class="flowtocaption">{caption}</div></td>'+
 '<td width="20%" align="right">'+
@@ -75,6 +77,7 @@ var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click'
 										//url:APIsEndPoint.url+'/media/'+data[i].media_container+'/download/'+data[i].media_name,
 										url:APIsEndPoint.flowto_files+'/'+data[i].media_container+'/mid/'+data[i].media_name,
 									//	url:APIsEndPoint.flowtofiles_url+'/'+data[i].media_container+'/mid/'+data[i].media_name,
+										f_id:data[i].id,
 										lat:data[i].position.lat,
 										lng:data[i].position.lng,
 										flowtodate:moment(data[i].flowtodate).fromNow(),
@@ -329,6 +332,7 @@ layerGroup.on('pm:markerdragend', (e) => {
 
 //	};//function
 
+
 $scope.getParameterByName=function(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -339,7 +343,14 @@ $scope.getParameterByName=function(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-	
+$scope.flowtoAction=function(id){
+	alert(id);
+};
+
+$("#flowto_act").click(function(){
+	alert("sadff");
+});
+
 // test with markercluster
 // var markers = L.markerClusterGroup();
 // markers.addLayer(L.marker([51.505, -0.07]));
@@ -364,3 +375,4 @@ $scope.getParameterByName=function(name, url) {
 })
 
 ;
+

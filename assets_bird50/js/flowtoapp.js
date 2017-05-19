@@ -202,6 +202,15 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 				 console.log('set active assignment id to:'+assignmentId);
 			 }else if(clickedItem['name']=='Flowto-Map'){
 			 	$window.location.href = './map.html?asid='+assignmentId;
+			 }else if(clickedItem['name']=='Remove'){
+				// alert('remove click'+assignmentId);
+				 Assignment.destroyById({"id":assignmentId}).$promise
+				 .then(function(dat){
+				 	flowtoMsg.alert('Remove Assignment Successful.');
+					$scope.refreshAssignment();
+				 },function(err){
+				 	flowtoMsg.alert('You don\'t  have permission for this assignment.');
+				 });
 			 }
 			 
 			// $scope.u.$save().then(function(){console.log('user active assignment saved');});
@@ -233,7 +242,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
     { name: 'Flowto-Map', icon: 'copy' },
 	//{ name: 'Share', icon: 'share-arrow' },
 	//{ name: 'Edit', icon: 'share-arrow' },
-//	{ name: 'Remove', icon: 'share-arrow' },
+	{ name: 'Remove', icon: 'share-arrow' },
 
   ];
   $scope.listItemClick = function($index) {
