@@ -145,16 +145,17 @@ $scope.showListBottomSheet=function(f_id){
 			   Flowto.destroyById({"id":f_id}).$promise
 			   .then(function(){
 				  // alert('remove '+f_id);
+  				var found = $filter('find_index_of_photos_by_f_id')($scope.photos, f_id);
+  				console.log('found:'+found);
+  					if(found){
+  						// ใช้วิธี clear แล้ว add ใหม่
+  						$scope.photos.splice(found,1);
+  						$scope.photoLayer.clear();
+  						$scope.photoLayer.add($scope.photos);
+  					}
 			   	flowtoMsg.alert('Remove Flowto Successful');
 				console.info('photos:',$scope.photos);
-				var found = $filter('find_index_of_photos_by_f_id')($scope.photos, f_id);
-				console.log('found:'+found);
-					if(found){
-						// ใช้วิธี clear แล้ว add ใหม่
-						$scope.photos.splice(found,1);
-						$scope.photoLayer.clear();
-						$scope.photoLayer.add($scope.photos);
-					}
+				
 				},function(err){
 				//   alert('not remove');
 			   	flowtoMsg.alert('Can not remove this Flowto.\n May be you are not  owner of this flowto.');
