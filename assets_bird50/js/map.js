@@ -147,7 +147,7 @@ $scope.showListBottomSheet=function(f_id){
 				  // alert('remove '+f_id);
   				var found = $filter('find_index_of_photos_by_f_id')($scope.photos, f_id);
   				console.log('found:'+found);
-  					if(found){
+  					if(found || found==0){
   						// ใช้วิธี clear แล้ว add ใหม่
   						$scope.photos.splice(found,1);
   						$scope.photoLayer.clear();
