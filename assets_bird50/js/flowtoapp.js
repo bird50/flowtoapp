@@ -168,7 +168,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		$scope.modelassignments = Assignment.find({ 
 
 		  filter: {
-			    include:['flowto','flowtoUser'],
+			  include:["flowto","flowtoUser"],
 		   // where: {
 		     // assignmentId: 1
 		    //},

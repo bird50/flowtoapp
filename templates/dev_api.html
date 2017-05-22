@@ -1,0 +1,370 @@
+{%extends "_base.html"%}
+{%block css%}
+{{super()}}
+<style>
+	small{
+		color:red;
+	}
+	.detail{
+		color:#c4c387;
+	}
+	.example{
+		color:green;
+	}
+	.headtbl{
+		background-color:#f7f7f2;
+	}
+</style>
+{%endblock%}
+{%block headermenu%}
+{%endblock%}
+		{%block headerinfo%}
+		<div class="banner-info">
+			<h2>Flowto App APIs END POINT</h2>
+			<p><i>Document version:0.2</i></p>
+		</div>
+		
+		{%endblock%}
+
+{%block content%}
+<h4>Flowto for Developer</h4>
+<div class="detail">api version 0.1 </div>
+<i class="detail">document update:22may2017 by siratis</i>
+<table class="table">
+	<tr>
+		<td>URL_endpoint</td><td><pre>http://bid.rid.go.th:3001/api</pre></td>
+	</tr>
+</table>
+
+<p class="panel">
+	<a href="#" name="photo"></a>
+	<h3>photo</h3>
+<table class="table">
+	<tr>
+		<td>URL_photo</td>
+		<td><pre>
+			http://bid.rid.go.th:3001/flowtofiles
+		</pre></td>
+	</tr>
+	<tr>
+		<td style="text-indent:50px;">Photo slug for thumbnials</td>
+		<td><pre>
+			[URL_photo]/[media_container]/thumb/[media_name]
+
+			<span class="detail">*[media_container]  : from model flowto response.</span>
+			<span class="detail">*[media_name]  : from model flowto response.</span>
+			
+		</pre></td>
+	</tr>
+	<tr>
+		<td style="text-indent:50px;">Photo slug for middle size</td>
+		<td><pre>
+			[URL_photo]/[media_container]/mid/[media_name]
+
+			<span class="detail">*[media_container]  : from model flowto response.</span>
+			<span class="detail">*[media_name]  : from model flowto response.</span>
+			
+		</pre></td>
+	</tr>
+	<tr>
+		<td style="text-indent:50px;">Photo slug for normal(large) size</td>
+		<td><pre>
+			[URL_photo]/[media_container]/[media_name]
+
+			<span class="detail">*[media_container]  : from model flowto response.<span>
+			<span class="detail">*[media_name]  : from model flowto response.</span>
+			
+			
+		</pre></td>
+	</tr>
+</table>
+</p>
+
+
+<p class="panel">
+	<a href="#" name="flowto"></a>
+	<h3>Model: FLOWTO</h3>
+<table class="table">
+	<tr>
+		<td colspan="2" class="headtbl"><h4>For <b>List</b> model</h4></td>
+	</tr>
+	<tr>
+		<td>URL</td>
+		<td><pre>
+			[URL_endpoint]/flowto
+		</pre></td>
+	</tr>
+	<tr>
+		<td>Method</td>
+		<td><pre>get</pre></td>
+	</tr>
+	<tr>
+		<td >REQUEST Params key:</td>
+		<td>REQUEST Params Value:</td>
+	</tr>
+	<tr>
+		<td style="text-indent:50px;">filter</td>
+		<td><pre>
+{
+	"include":
+	{
+		"relation":"assignment",
+		"scope": {
+			"include":"flowtoUser"
+			}
+	},
+	"where" : {
+		"assignmentId": <small>13</small>,
+		"flowtodate" : {
+			"between": [ "<small>2017-03-21T03:19:01.000Z</small>","<small>2017-05-21T03:19:01.000Z</small>"]
+		}	
+	} 
+}
+		<span class="detail">** red text are your query variables</span>
+		</pre></td>
+	</tr>
+	<tr>
+		<td>Response example </td>
+		<td><pre class="example">
+[
+  {
+    "id": 52,
+    "position": {
+      "lat": 18.8002545833,
+      "lng": 99.0202264167
+    },
+    "caption": "tsta",
+    "flowtodate": "2017-03-21T03:19:01.000Z",
+    "media_container": "v1_2017-05_siratis",
+    "media_name": "flowto1494819886559kj3qyor.jpg",
+    "flowtoUserId": 14,
+    "assignmentId": 13,
+    "assignment": {
+      "assignmentName": "Asia",
+      "description": "",
+      "isOfficial": false,
+      "avatar": null,
+      "id": 13,
+      "flowtoUserId": 11,
+      "flowtoUser": {
+        "word": null,
+        "avatar": null,
+        "activateAssignment": 13,
+        "profile": null,
+        "realm": null,
+        "username": "bird50",
+        "challenges": null,
+        "email": "siratis.w@gmail.com",
+        "emailVerified": null,
+        "status": null,
+        "created": null,
+        "lastUpdated": null,
+        "id": 11,
+        "ridAgencyId": 1,
+        "credentials": null
+      }
+    }
+  },
+  {
+    "id": 53,
+    "position": {
+      "lat": 13.7592,
+      "lng": 100.4845638889
+    },
+    "caption": "ฟ",
+    "flowtodate": "2017-04-04T10:46:09.000Z",
+    "media_container": "v1_2017-05_siratis",
+    "media_name": "flowto14948206119729cg65qaq.jpg",
+    "flowtoUserId": 14,
+    "assignmentId": 13,
+    "assignment": {
+      "assignmentName": "Asia",
+      "description": "",
+      "isOfficial": false,
+      "avatar": null,
+      "id": 13,
+      "flowtoUserId": 11,
+      "flowtoUser": {
+        "word": null,
+        "avatar": null,
+        "activateAssignment": 13,
+        "profile": null,
+        "realm": null,
+        "username": "bird50",
+        "challenges": null,
+        "email": "siratis.w@gmail.com",
+        "emailVerified": null,
+        "status": null,
+        "created": null,
+        "lastUpdated": null,
+        "id": 11,
+        "ridAgencyId": 1,
+        "credentials": null
+      }
+    }
+  }
+]
+
+		</pre></td>
+	</tr>
+</table>
+</p>
+
+<p class="panel">
+	<a href="#" name="assignment"></a>
+	<h3>Model: Assignment</h3>
+<table class="table">
+	<tr>
+		<td colspan="2" class="headtbl"><h4>For <b>List</b> model</h4></td>
+	</tr>
+	<tr>
+		<td>URL</td>
+		<td><pre>
+			[URL_endpoint]/assignments
+		</pre></td>
+	</tr>
+	<tr>
+		<td>Method</td>
+		<td><pre>get</pre></td>
+	</tr>
+	<tr>
+		<td >REQUEST Params key:</td>
+		<td>REQUEST Params Value:</td>
+	</tr>
+	<tr>
+		<td style="text-indent:50px;">filter</td>
+		<td><pre>
+{
+			"include":["<small>flowto</small>","<small>flowtoUser</small>"],
+			"order":["priority DESC","create_time DESC"]
+}
+			<span class="detail">** red text may be remove out of array if you don't want to query include this model</span> 
+		</pre></td>
+	</tr>
+	<tr>
+		<td>Response example</td>
+		<td><pre class="example">
+[
+		{
+		    "assignmentName": "Test 22052560",
+		    "description": "",
+		    "isOfficial": false,
+		    "avatar": null,
+		    "create_time": "2017-05-22T05:54:55.000Z",
+		    "priority": 5,
+		    "id": 27,
+		    "flowtoUserId": 15,
+		    "flowto": [
+		      {
+		        "id": 112,
+		        "position": {
+		          "lat": 9.3605388889,
+		          "lng": 99.7796388889
+		        },
+		        "caption": "ทดสอบ",
+		        "flowtodate": "2017-05-13T06:40:30.000Z",
+		        "media_container": "v1_2017-05_tester01",
+		        "media_name": "flowto14954326425396t56w2ee.JPG",
+		        "create_time": null,
+		        "flowtoUserId": 15,
+		        "assignmentId": 27
+		      },
+		      {
+		        "id": 113,
+		        "position": {
+		          "lat": 13.7878532408,
+		          "lng": 100.5116424558
+		        },
+		        "caption": "ดดดดด",
+		        "flowtodate": "2017-05-22T06:36:55.000Z",
+		        "media_container": "v1_2017-05_siratis",
+		        "media_name": "flowto1495435017896059us2x.jpg",
+		        "create_time": null,
+		        "flowtoUserId": 14,
+		        "assignmentId": 27
+		      }
+		    ],
+		    "flowtoUser": {
+		      "word": "ผู้ทดสอบ คนที่ 1",
+		      "avatar": "T",
+		      "activateAssignment": 21,
+		      "profile": "ผู้ทดสอบ คนที่ 1",
+		      "realm": null,
+		      "username": "tester01",
+		      "challenges": null,
+		      "email": "tester01@mail.com",
+		      "emailVerified": null,
+		      "status": null,
+		      "created": null,
+		      "lastUpdated": null,
+		      "id": 15,
+		      "ridAgencyId": null,
+		      "credentials": null
+		    }
+		  },
+		  {
+		    "assignmentName": "เครื่องสูบน้ำ",
+		    "description": "การดำเนินการช่วยเหลือ ด้วยเครื่องสูบน้ำ",
+		    "isOfficial": false,
+		    "avatar": null,
+		    "create_time": "2017-05-18T10:55:06.000Z",
+		    "priority": 5,
+		    "id": 21,
+		    "flowtoUserId": 15,
+		    "flowto": [],
+		    "flowtoUser": {
+		      "word": "ผู้ทดสอบ คนที่ 1",
+		      "avatar": "T",
+		      "activateAssignment": 21,
+		      "profile": "ผู้ทดสอบ คนที่ 1",
+		      "realm": null,
+		      "username": "tester01",
+		      "challenges": null,
+		      "email": "tester01@mail.com",
+		      "emailVerified": null,
+		      "status": null,
+		      "created": null,
+		      "lastUpdated": null,
+		      "id": 15,
+		      "ridAgencyId": null,
+		      "credentials": null
+		    }
+		  },
+		  {
+		    "assignmentName": "อุทกภัย 2560",
+		    "description": "อุทกภัย 2560",
+		    "isOfficial": false,
+		    "avatar": null,
+		    "create_time": "2017-05-18T10:53:27.000Z",
+		    "priority": 5,
+		    "id": 20,
+		    "flowtoUserId": 15,
+		    "flowto": [],
+		    "flowtoUser": {
+		      "word": "ผู้ทดสอบ คนที่ 1",
+		      "avatar": "T",
+		      "activateAssignment": 21,
+		      "profile": "ผู้ทดสอบ คนที่ 1",
+		      "realm": null,
+		      "username": "tester01",
+		      "challenges": null,
+		      "email": "tester01@mail.com",
+		      "emailVerified": null,
+		      "status": null,
+		      "created": null,
+		      "lastUpdated": null,
+		      "id": 15,
+		      "ridAgencyId": null,
+		      "credentials": null
+		    }
+		  }
+]
+		</pre></td>
+	</tr>
+</table>
+</p>
+
+{%endblock%}
+
+
+
