@@ -1,5 +1,5 @@
 angular.module('flowtoMap',['ngRoute','lbServices','flowtomodule'])
-.controller('mapCtrl', function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q) {
+.controller('mapCtrl', function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter) {
 	//alert(APIsEndPoint);
 	
 	
@@ -9,11 +9,13 @@ const m2 = L.marker([51.50614, -0.0989]);
 const m3 = L.marker([51.50915, -0.096112]);
 
 const map4 = L.map('example4').setView([13.7882305556,100.5101], 13);
+
 map4.attributionControl.setPrefix(false); // remov leaflet attribution
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map4);
-var template_popup='<div class="flowtoCover"><div style="position:absolute;left:180px;top:10px;"><md-button><a href="#" data="{f_id}" ><img src="images/more_vert_white_48x48.png" style="height:16;width:16;"/></a></md-button></div><img src="{url}" class="flowtoInMap"/></div>'+
+
+var template_popup='<div class="flowtoCover"><div style="position:absolute;left:180px;top:10px;"><a class="pop_flowto_menu" href="#" data="{f_id}" ><img src="images/more_vert_white_48x48.png" style="height:16;width:16;"/></a></div><img src="{url}" class="flowtoInMap" style="cursor:hand;"/ ></div>'+
 '<table class="flowtoinfo">'+
 '<tr><td width="80%" style="word-wrap:break-word;"><div class="flowtocaption">{caption}</div></td>'+
 '<td width="20%" align="right">'+
@@ -21,12 +23,16 @@ var template_popup='<div class="flowtoCover"><div style="position:absolute;left:
 	'<span>{flowtodate}</span><br/>'
 '</td>'+
 '</tr></table>';
-var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click', function (evt) {
+//var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click', function (evt) {
+$scope.photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click', function (evt) {
 		evt.layer.bindPopup(L.Util.template(template_popup, evt.layer.photo), {
 			className: 'leaflet-popup-photo',
 			minWidth: 200, //320
 			//maxWidth:390
 		}).openPopup();
+		$scope.init_jq();
+		console.info('evt photo',evt.layer.photo);
+		//map4.removeLayer(evt.layer.photo);
 });
 
 
@@ -69,7 +75,7 @@ var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click'
 							}).$promise
 							.then(function(data){
 								console.log(data);
-								var photos = [];
+								$scope.photos = [];
 								for (var i = 0; i < data.length; i++) {
 									console.info('user:'+data[i].flowtoUser);
 									var photo = {
@@ -87,11 +93,13 @@ var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click'
 										thumbnail:APIsEndPoint.flowto_files+'/'+data[i].media_container+'/thumb/'+data[i].media_name
 									//	thumbnail:APIsEndPoint.flowtofiles_url+'/'+data[i].media_container+'/thumb/'+data[i].media_name
 									};
-									photos.push(photo);
+									$scope.photos.push(photo);
 								}
-								if(photos.length>0){
-									photoLayer.add(photos).addTo(map4);
-									map4.fitBounds(photoLayer.getBounds());
+								if($scope.photos.length>0){
+									$scope.photoLayer.add($scope.photos).addTo(map4);
+									map4.fitBounds($scope.photoLayer.getBounds());
+									//console.info('photoLayer:',$scope.photoLayer._photos._layers);
+									//$scope.photoLayer.clear();
 								}
 								
 								//if(photos)
@@ -107,231 +115,6 @@ var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click'
 	}
 	
 	
-	/*
-	$scope.credentials={};
-	$scope.u={}; // for keep user detail
-	$scope.islogin=FlowtoUser.isAuthenticated();
-	$scope.assignment={};
-	if($scope.islogin){
-		$scope.uid=FlowtoUser.getCurrentId();
-		FlowtoUser.findById({"id":$scope.uid}).$promise
-		.then(function(data){
-			$scope.u=data;
-			console.log(data);
-			$scope.assignment=Assignment.findById({"id":data.activateAssignment})
-			.$promise.then(function(dat){
-				$scope.assignmentName=dat.assignmentName;
-				$scope.assignmentId=dat.id;
-				//console.log('asdf');
-			console.log(JSON.stringify(dat));
-			
-			//$scope.init_flowtos();
-			});
-			//console.log('assignment name:'+JSON.stringify(data));
-			//console.log(JSON.stringify($scope.u));
-		});
-		//$scope.u.userLetter=$scope.u.username.toUpperCase();
-		
-	}
-*/
-
-// GEOSJON EXAMPLE
-/*
-const geoJsonData = {
-    'type': 'FeatureCollection',
-    'features': [
-        {
-            'type': 'Feature',
-            'properties': {},
-            'geometry': {
-                'type': 'Polygon',
-                'coordinates': [
-                    [
-                        [
-                            -0.15483856201171872,
-                            51.527329038465936,
-                        ],
-                        [
-                            -0.16977310180664062,
-                            51.51643437722083,
-                        ],
-                        [
-                            -0.15964508056640625,
-                            51.50094238217541,
-                        ],
-                        [
-                            -0.13149261474609375,
-                            51.5042549065934,
-                        ],
-                        [
-                            -0.11758804321289061,
-                            51.518463972439385,
-                        ],
-                        [
-                            -0.13303756713867188,
-                            51.53106680201548,
-                        ],
-                        [
-                            -0.15483856201171872,
-                            51.527329038465936,
-                        ],
-                    ],
-                ],
-            },
-        },
-    ],
-};
-const geoJsonButton = document.getElementById('test-geojson');
-
-// Polygon Example
-
-
-
-// Layer Group Example
-
-const layerGroupItem1 = L.polyline([
-    [51.51, -0.09],
-    [51.513, -0.08],
-    [51.514, -0.11],
-]);
-const layerGroupItem2 = L.polygon([
-    [51.52, -0.06],
-    [51.51, -0.07],
-    [51.52, -0.05],
-]);
-
-const layerGroupItem3 = L.polygon([
-    [
-        51.51549835365031,
-        -0.06450164634969281,
-    ],
-    [
-        51.51944818307178,
-        -0.08425079345703125,
-    ],
-    [
-        51.51868369995795,
-        -0.06131630004205801,
-    ],
-    [
-        51.51549835365031,
-        -0.06450164634969281,
-    ],
-]);
-const layerGroupItem4 = L.polygon([
-    [
-        51.51549835365031,
-        -0.06450164634969281,
-    ],
-    [
-        51.51944818307178,
-        -0.08425079345703125,
-    ],
-    [
-        51.51868369995795,
-        -0.06131630004205801,
-    ],
-    [
-        51.51549835365031,
-        -0.06450164634969281,
-    ],
-]);
-const layerGroupItem5 = L.polygon([
-    [
-        51.51549835365031,
-        -0.06450164634969281,
-    ],
-    [
-        51.51944818307178,
-        -0.08425079345703125,
-    ],
-    [
-        51.51868369995795,
-        -0.06131630004205801,
-    ],
-    [
-        51.51549835365031,
-        -0.06450164634969281,
-    ],
-]);
-
-const layerGroup = L.featureGroup([layerGroupItem1]).addTo(map4);
-layerGroup.pm.toggleEdit({
-    draggable: true,
-    snappable: true,
-    snapDistance: 30,
-});
-
-layerGroup.on('pm:snap', (e) => {
-    console.log('snap');
-    console.log(e);
-});
-layerGroup.on('pm:unsnap', (e) => {
-    console.log('unsnap');
-    console.log(e);
-});
-
-map4.pm.addControls({
-    position: 'topright',
-});
-
-// map4.pm.setPathOptions({
-//     color: 'orange',
-//     fillColor: 'green',
-//     fillOpacity: 0.4,
-// });
-
-layerGroup.addLayer(layerGroupItem2);
-layerGroup.addLayer(layerGroupItem3);
-// layerGroup.addLayer(layerGroupItem4);
-// layerGroup.addLayer(layerGroupItem5);
-
-layerGroup.on('pm:dragstart', (e) => {
-    console.log(e);
-});
-layerGroup.on('pm:drag', (e) => {
-    console.log(e);
-});
-layerGroup.on('pm:dragend', (e) => {
-    console.log(e);
-});
-layerGroup.on('pm:markerdragstart', (e) => {
-    console.log(e);
-});
-layerGroup.on('pm:markerdragend', (e) => {
-    console.log(e);
-});
-*/
-
-	/*
-	reqwest({
-			url: 'http://kulturnett2.delving.org/api/search?query=*%3A*&format=jsonp&rows=100&pt=59.936%2C10.76&d=1&qf=abm_contentProvider_text%3ADigitaltMuseum',
-			type: 'jsonp',
-			success: function (data) {
-				var photos = [];
-				data = data.result.items;
-
-				for (var i = 0; i < data.length; i++) {
-					var photo = data[i].item.fields;
-					if (photo.abm_latLong) {
-						var pos = photo.abm_latLong[0].split(',');
-						photos.push({
-							lat: pos[0],
-							lng: pos[1],
-							url: photo.delving_thumbnail[0],
-							caption: (photo.delving_description ? photo.delving_description[0] : '') + ' - Kilde: <a href="' + photo.delving_landingPage + '">' + photo.delving_collection + '</a>',
-							thumbnail: photo.delving_thumbnail[0]
-						});
-					}	
-				}
-				//photoLayer.add(photos).addTo(map4);
-				//map4.fitBounds(photoLayer.getBounds());
-			}
-		});
-		*/
-
-//	};//function
-
 
 $scope.getParameterByName=function(name, url) {
     if (!url) url = window.location.href;
@@ -343,13 +126,63 @@ $scope.getParameterByName=function(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 };
 
-$scope.flowtoAction=function(id){
-	alert(id);
+$scope.alert=function(msg){
+		flowtoMsg.alert(msg);
 };
 
-$("#flowto_act").click(function(){
-	alert("sadff");
-});
+//$scope.alert=function
+$scope.showListBottomSheet=function(f_id){
+       $mdBottomSheet.show({
+         templateUrl: 'map-bottom-sheet-list-template.html',
+         controller: 'MapListBottomSheetCtrl',
+			locals:{
+				"data":{
+			 	   "f_id":f_id
+			   	}
+		   }
+       }).then(function(clickedItem) {
+		   if(clickedItem=="removeFlowto"){
+			   Flowto.destroyById({"id":f_id}).$promise
+			   .then(function(){
+				  // alert('remove '+f_id);
+			   	flowtoMsg.alert('Remove Flowto Successful');
+				console.info('photos:',$scope.photos);
+				var found = $filter('find_index_of_photos_by_f_id')($scope.photos, f_id);
+				console.log('found:'+found);
+					if(found){
+						// ใช้วิธี clear แล้ว add ใหม่
+						$scope.photos.splice(found,1);
+						$scope.photoLayer.clear();
+						$scope.photoLayer.add($scope.photos);
+					}
+				},function(err){
+				//   alert('not remove');
+			   	flowtoMsg.alert('Can not remove this Flowto.\n May be you are not  owner of this flowto.');
+			   });
+		   }else{
+		   	 return
+		   }
+       }).catch(function(error) {
+         // User clicked outside or hit escape
+       });
+};
+// use jquery
+$scope.init_jq=function(){
+	$(function(){
+		//alert('jquery');
+		$(".pop_flowto_menu").click(function(){
+			var f_id=$(this).attr('data');
+			$scope.showListBottomSheet(f_id);
+		});
+		$(".flowtoInMap").click(function(){
+			//flowtoMsg.alert('click flowto');
+		});
+	});
+};
+
+//$scope.init_jq();
+
+
 
 // test with markercluster
 // var markers = L.markerClusterGroup();
@@ -358,6 +191,62 @@ $("#flowto_act").click(function(){
 // markers.addLayer(L.marker([51.505, -0.09]));
 // map4.addLayer(markers);
 
+})
+.controller('MapListBottomSheetCtrl', function($scope,$mdBottomSheet,data,$mdDialog){
+	$scope.dat=data;
+	console.log('sheet'+JSON.stringify(data));
+	$scope.listItemClick=function(item){
+		$mdBottomSheet.hide(item);
+	};
+	$scope.removeFlowto=function(ev){
+		/*
+$scope.showConfirm = function(ev) {
+    // Appending dialog to document.body to cover sidenav in docs app
+    var confirm = $mdDialog.confirm()
+          .title('Would you like to delete your debt?')
+          .textContent('All of the banks have agreed to forgive you your debts.')
+          .ariaLabel('Lucky day')
+          .targetEvent(ev)
+          .ok('Please do it!')
+          .cancel('Sounds like a scam');
+
+    $mdDialog.show(confirm).then(function() {
+      $scope.status = 'You decided to get rid of your debt.';
+    }, function() {
+      $scope.status = 'You decided to keep your debt.';
+    });
+  };
+		*/
+		var myconfirm = $mdDialog.confirm()
+			.title('Would you like to delete your Flowto?')
+			.textContent('Would you like to delete this Flowto?')
+			.ariaLabel('Lucky day')
+			.targetEvent(ev)
+			.ok('OK Remove NOW.')
+			.cancel('CANCEL');
+		$mdDialog.show(myconfirm).then(function() {
+			$scope.listItemClick('removeFlowto');
+		}, function() {
+			return;
+			//$scope.status = 'You decided to keep your debt.';
+			//$mdBottomSheet.hide(item);
+		});
+		
+	};
+	
+})
+//  credit -->http://stackoverflow.com/questions/15610501/in-angular-i-need-to-search-objects-in-an-array
+.filter('find_index_of_photos_by_f_id', function() {
+  return function(input, f_id) {
+    var i=0, len=input.length;
+    for (; i<len; i++) {
+      if (+input[i].f_id == +f_id) {
+       // return input[i];
+	   return i;
+      }
+    }
+    return null;
+  }
 })
 .config(function(LoopBackResourceProvider,APIsEndPoint) {
 

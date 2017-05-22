@@ -1,0 +1,14 @@
+<md-bottom-sheet class="md-list md-has-header md-primary" style="z-index:1001;">
+  <!--ใช้ z-index 701 เพราะ  ค่า default คือ 80 ไม่พอกับ map overlay-->
+  <md-subheader ng-cloak md-warn><span class="md-warn"> action</span></md-subheader>
+  <md-list ng-cloak>
+    <md-list-item >
+      <md-button class="md-warn"
+          ng-click="removeFlowto();"
+          md-autofocus="false"
+          class="md-list-item-content md-accend md-raised" >
+        <span class="md-inline-list-icon-label md-primary">Remove</span>
+      </md-button>
+    </md-list-item>
+  </md-list>
+</md-bottom-sheet>

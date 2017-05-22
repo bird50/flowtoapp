@@ -10,7 +10,7 @@
 {%block css%}
 <link rel="stylesheet" href="css/leaflet1.0.2.css" />
 <link rel="stylesheet" href="css/map.css" />
-<link href="css/angular-material.min.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/angular-material.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" href="css/leaflet.pm.css"></script>
 <link rel="stylesheet" href="css/Leaflet.Photo.css"></script>
 {%endblock%}
@@ -36,7 +36,7 @@
 {%endblock%}
 </head>
 <body {%block body_tag%}{%endblock%}>
-<div flex layout="row">
+<div flex layout="column"><!--start page-->
 {%verbatim%}
  <md-toolbar class="md-primary">
       <div class="md-toolbar-tools" layout="row" layout-padding>
@@ -58,8 +58,10 @@
       </div>
     </md-toolbar>
 {%endverbatim%}
- <md-content flex id="example4" class="map"></md-content>
-</div>
+	<div flex>
+		<div  id="example4" class="map"></div>
+	</div>
+</div><!--end page-->
 {%block js_end%}
 <script src="js/map.js"></script>
 

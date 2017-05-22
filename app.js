@@ -2,7 +2,8 @@ var express = require( "express" ),
     nunjucks = require( "nunjucks" ),
     path = require( "path" ),
 	request = require('request'),
-	jsonq=require('jsonq');
+	jsonq=require('jsonq'),
+	fs = require('fs');
 app = express();
   // var nunjucksEnv = new nunjucks.Environment( new nunjucks.FileSystemLoader( path.join( __dirname, '/public' )));
 
@@ -34,13 +35,38 @@ app.use(function(req, res, next) {
   next();
 });
 
+
+
+///////////////// write for render mobile
+// var fs = require('fs');
+var buildPage_enabled=true;  // false if un build mode
+var buildPage=function(path,filename,data){
+	fs.writeFile("../flowto_buildpage/"+path+filename, data, function(err) {
+	    if(err) {
+	        return console.log(err);
+	    }
+	    console.log("The file "+filename+" was saved!");
+	}); 	
+};
+
+/////////////
+
+
 app.all('/', function(req, res) {
 	console.log(req.params);
   res.render('welcome.html',app_cfg);
 });
 app.get(/\/(.*\.html)/, function(req, res) {
   console.log(req.params[0]);
-  res.render(req.params[0],app_cfg);
+  var buildPage_enabled=true;
+  if(buildPage_enabled){
+  	    var htmlstring=nunjucks.render(req.params[0],app_cfg);
+  	    res.send(htmlstring);
+  	    buildPage('',req.params[0],htmlstring);
+  	}else{
+  		res.render(req.params[0],app_cfg);
+  	}
+ // res.render(req.params[0],app_cfg);
   
 });
 app.get('/test',function(req,res){
