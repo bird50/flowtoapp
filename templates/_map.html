@@ -35,7 +35,7 @@
 {%endblock%}
 </head>
 <body {%block body_tag%}{%endblock%}>
-<div flex layout="column"><!--start page-->
+<div flex layout="column" layout-fill style="overflow:hidden;"><!--start page-->
 <div ng-view></div>
 </div><!--end page-->
 {%block js_end%}
@@ -97,20 +97,22 @@ style="
 ><div flex></div><div layout="row" layout-align="right"><span flex></span>
 <md-button ><a href="{{thisFlowto.img_url}}"><img src="images/ic_image_black_48dp_2x.png" style="width:32px;height:32px;"/></a></md-button></div>
 </div>
-<div flex>
-	<div style="overflow:scroll;" layout="column" layout layout-align="top">
-		<div layout="row" layout-align="left center" layout-padding>
+<div flex="50" style="overflow:scroll;" layout="column" layout layout-align="top">
+	
+		<p layout="row" layout-align="left center" layout-padding>
 			<span class="md-body-2">{{thisFlowto.flowtoUser}}</span> 
 			<span class="md-body-1">{{thisFlowto.caption}}</span>
-		</div>
-		<div layout="row" layout-align="left center" layout-padding>
+		</p>
+		<p layout="row" layout-align="right center" layout-padding>
+			<span flex></span>
 			<span class="md-body-2 md-accent">Assignment:</span> 
 			<span class="md-body-1 md-accent">{{thisFlowto.assignmentName}}</span>
-		</div>
-		<div layout="row" layout-fill layout-align="left top">
-			<span class="md-caption" style="color:#b7b3b3;" flex>{{thisFlowto.flowtodate}}</span> 
-		</div>
-	</div>
+		</p>
+		<p layout="row" layout-padding layout-align="right center">
+			<span flex></span>
+			<span class="md-caption" style="color:#b7b3b3;">{{thisFlowto.flowtodate}}</span> 
+		</p>
+		
 </div>
 </div>
 {%endverbatim%}
