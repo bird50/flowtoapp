@@ -1,8 +1,38 @@
 angular.module('flowtoMap',['ngRoute','lbServices','flowtomodule'])
-.controller('mapCtrl', function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter) {
+.config(
+  function($routeProvider, $locationProvider) {
+    $routeProvider
+      .when('/', {
+        templateUrl: 'mainmap.html',
+        controller: 'mainmapCtrl'
+     //   controllerAs: 'flowtoCtrl'
+      })
+      .when('/flowto/:flowtoId', {
+        templateUrl: 'flowtopage.html',
+        controller: 'flowtoCtrl'
+     //   controllerAs: 'flowtoCtrl'
+      })
+	  .otherwise({
+	    template : "<h1>nothing</h1><p>Nothing has been selected</p>"
+	});
+   /*   .when('/Book/:bookId/ch/:chapterId', {
+        templateUrl: 'chapter.html',
+        controller: 'ChapterCtrl',
+        controllerAs: 'chapter'
+      });
+*/
+    //$locationProvider.html5Mode(true);
+})
+
+.controller('mapCtrl',
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams) {
+
+})
+.controller('mainmapCtrl',
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams) {
 	//alert(APIsEndPoint);
-	
-	
+
+//console.log('location :'+$location.absUrl());
 moment.locale('th');
 const m1 = L.marker([51.50313, -0.091223]);
 const m2 = L.marker([51.50614, -0.0989]);
@@ -15,7 +45,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map4);
 
-var template_popup='<div class="flowtoCover"><div style="position:absolute;left:180px;top:10px;"><a class="pop_flowto_menu" href="#" data="{f_id}" ><img src="images/more_vert_white_48x48.png" style="height:16;width:16;"/></a></div><img src="{url}" class="flowtoInMap" style="cursor:hand;"/ ></div>'+
+var template_popup='<div class="flowtoCover"><div style="position:absolute;left:180px;top:10px;"><a class="pop_flowto_menu" href="#/" data="{f_id}" ><img src="images/more_vert_white_48x48.png" style="height:16;width:16;"/></a></div><a href="#/flowto/{f_id}"><img src="{url}" class="flowtoInMap" style="cursor:hand;"/ ></a></div>'+
 '<table class="flowtoinfo">'+
 '<tr><td width="80%" style="word-wrap:break-word;"><div class="flowtocaption">{caption}</div></td>'+
 '<td width="20%" align="right">'+
@@ -235,6 +265,46 @@ $scope.showConfirm = function(ev) {
 		
 	};
 	
+})
+.controller('flowtoCtrl',
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams) {
+	moment.locale('th');
+	$scope.params=$routeParams;
+	$scope.thisFlowto={
+			"id":0,
+			"media_name":"no media",
+			"caption":"",
+		"img_url": "images/4.jpg"
+	};
+	var flowto_find_params={
+		"id":$scope.params.flowtoId,
+		"filter":{
+			"include":["assignment","flowtoUser"]
+			}//filter
+		};
+	Flowto.findById(flowto_find_params).$promise
+	.then(function(data){
+		$scope.thisFlowto={
+			"id":data.id,
+			"media_name":data.media_name,
+			"caption":data.caption,
+			"img_url":APIsEndPoint.flowto_files+'/'+data.media_container+'/mid/'+data.media_name,
+			"assignmentId":data.assignmentId,
+			"assignmentName":data.assignment.assignmentName,
+			"flowtoUserId":data.flowtoUserId,
+			"flowtoUser":data.flowtoUser.username,
+			"flowtoUserEmail":data.flowtoUser.email,
+			"flowtodate":moment(data.flowtodate).fromNow(),
+			"media_container":data.media_container
+		};
+		console.info("flowto dat:",data);
+		console.info("flowto_in:",$scope.thisFlowto);
+	},function(err){
+		//$scope.thisFlowto={};
+		console.log("nothing");
+	}
+	);
+
 })
 //  credit -->http://stackoverflow.com/questions/15610501/in-angular-i-need-to-search-objects-in-an-array
 .filter('find_index_of_photos_by_f_id', function() {

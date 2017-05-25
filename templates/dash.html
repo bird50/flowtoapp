@@ -24,28 +24,28 @@
 -->
 
 <md-toolbar md-scroll-shrink>
-		<div class="md-toolbar-tools" layout="row" layout-padding layout-fill>
+	<div class="md-toolbar-tools" layout="row" layout-padding layout-fill layout-align="center center">
 			<md-button><a href="index.html"><strong>FLOWTO</strong></a></md-button>
-			<div flex style="overflow:hidden;text-overflow: ellipsis; width: 400px;"><span style="color:#b6b2b7;"> - assignment: </span><a class="menu_a" ng-click="null">{{assignmentName}}</a>
-			</div>
+			<md-input-container flex layout="column" style="margin:-20px 0px 0px 0px;">
+				<label class="md-caption">filter</label>
+				<input  name="searchText" ng-model="searchText" class="md-caption"/>
+			</md-input-container>
+			<span flex></span>
 			<span ng-if="u.avatar.length==1"><a href="./profile.html"><ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;" width="36"></ng-avatar></a></span><span>{{u.username}}</span>
-		</div>
+	</div>
 </md-toolbar>
 {%endverbatim%}
 <md-content flex>
 
 <section>
 	{%verbatim%}
-	<md-subheader class="md-accent" layout-align="center" layout="column">
-	<div layout="row" flex>
-		<div ><h4>Assignment List</h4></div>
-		<span flex="5"></span>
-		<div flex>
-			<md-input-container>
-				<label>Filter</label>
-				<input  name="searchText" ng-model="searchText"/>
-			</md-input-container>
+	<md-subheader class="md-accent" layout="column">
+	<div layout="row" layout-wrap layout-fill layout-padding>
+		<div class="md-primary"  layout="row" layout-padding>
+			<span class="md-body-1">selected assignment:</span>
+			<span class="md-body-2" >{{assignmentName}}</span>
 		</div>
+		<span flex></span>
 	</div>
 	</md-subheader>
 	{%endverbatim%}
@@ -87,5 +87,68 @@
 {%endverbatim%}
 {%endblock%}
 
+{%block js_end%}
+{%verbatim%}
+<script type="text/ng-template" id="bottom-sheet-list-template.html">
+<md-bottom-sheet class="md-list md-has-header md-primary">
+  <md-subheader ng-cloak md-warn><span class="md-warn">Actions</span></md-subheader>
+  <md-list ng-cloak>
+    <md-list-item ng-repeat="item in items">
+      <md-button 
+          ng-click="listItemClick($index)"
+          md-autofocus="$index == 2"
+          class="md-list-item-content md-accend md-raised" >
+        <md-icon md-svg-src="{{item.icon}}"></md-icon>
+        <span class="md-inline-list-icon-label md-primary">{{ item.name }}</span>
+      </md-button>
+    </md-list-item>
+  </md-list>
+</md-bottom-sheet>
+</script>
 
+<script type="text/ng-template" id="createAssignment.tmpl.html">
+<md-dialog aria-label="FLOWTO">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h4>Create an Assignment</h4>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="images/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content" layout="column">
+		  <md-input-container class="md-block" flex-gt-sm>
+            <label>Assignment</label>
+            <input ng-model="new_assignment.assignmentName">
+          </md-input-container>
+		  <md-input-container class="md-block">
+		  	<label>Description</label>
+			<textarea ng-model="new_assignment.description" rows="5" md-select-on-focus></textarea>
+		  </md-input-container>
+		  <md-input-container>
+		  <label>Important Rate</label>
+		  <md-slider flex class="md-accent" md-discrete="" ng-model="new_assignment.priority" step="1" min="1" max="5" aria-label="rating">
+		  </md-input-container>
+     </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancel
+      </md-button>
+      <md-button ng-click="createAssignment()">
+       Create
+      </md-button>
+      
+    </md-dialog-actions>
+  </form>
+</md-dialog>
+</script>
+{%endverbatim%}
+{%endblock%}
 

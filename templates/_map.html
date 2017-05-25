@@ -22,7 +22,6 @@
 		<script src="js/angular-aria.min.js"></script>
 		<script src="js/angular-material.min.js"></script><!--ver 1.0.7-->
 		<script src="js/lb-services.js"></script>
-
 		<script src="js/flowtomodule.js"></script>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/moment-2.17.1.min.js"></script>
@@ -37,7 +36,12 @@
 </head>
 <body {%block body_tag%}{%endblock%}>
 <div flex layout="column"><!--start page-->
+<div ng-view></div>
+</div><!--end page-->
+{%block js_end%}
+<script src="js/map.js"></script>
 {%verbatim%}
+<script type="text/ng-template" id="mainmap.html">
  <md-toolbar class="md-primary">
       <div class="md-toolbar-tools" layout="row" layout-padding>
         <md-button>
@@ -57,14 +61,60 @@
         </md-button>
       </div>
     </md-toolbar>
+
 {%endverbatim%}
 	<div flex>
 		<div  id="example4" class="map"></div>
 	</div>
-</div><!--end page-->
-{%block js_end%}
-<script src="js/map.js"></script>
+</script>
 
+
+<script type="text/ng-template" id="flowtopage.html">
+{%verbatim%}
+ <md-toolbar class="md-primary">
+      <div class="md-toolbar-tools" layout="row" layout-padding>
+        <md-button>
+			<a href="#/" class="menu_a">back</a>
+		</md-button><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+          <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
+        </md-button>--> 
+		<div style="overflow:hidden;text-overflow:ellipsis; " flex>
+			flowto-id: {{params.flowtoId}}
+		</div>
+      </div>
+</md-toolbar>
+<div flex layout="column" layout-fill>
+<div flex="50" 
+style="
+    background-image: url('{{thisFlowto.img_url}}');
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center top;
+    background-attachment: fixed;
+	background-color:#c4c4c4;
+	overflow:scroll;
+}" layout="column" layout-align="bottom right" layout-padding
+><div flex></div><div layout="row" layout-align="right"><span flex></span>
+<md-button ><a href="{{thisFlowto.img_url}}"><img src="images/ic_image_black_48dp_2x.png" style="width:32px;height:32px;"/></a></md-button></div>
+</div>
+<div flex>
+	<div style="overflow:scroll;" layout="column" layout layout-align="top">
+		<div layout="row" layout-align="left center" layout-padding>
+			<span class="md-body-2">{{thisFlowto.flowtoUser}}</span> 
+			<span class="md-body-1">{{thisFlowto.caption}}</span>
+		</div>
+		<div layout="row" layout-align="left center" layout-padding>
+			<span class="md-body-2 md-accent">Assignment:</span> 
+			<span class="md-body-1 md-accent">{{thisFlowto.assignmentName}}</span>
+		</div>
+		<div layout="row" layout-fill layout-align="left top">
+			<span class="md-caption" style="color:#b7b3b3;" flex>{{thisFlowto.flowtodate}}</span> 
+		</div>
+	</div>
+</div>
+</div>
+{%endverbatim%}
+</script>
 {%endblock%}
 </body>
 </html>
