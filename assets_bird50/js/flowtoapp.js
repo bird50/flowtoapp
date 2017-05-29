@@ -1,6 +1,9 @@
 //flowtoapp
 angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload','ngAvatar','ngMaterial'])
-.controller('indexCtrl',function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,APIsEndPoint,$mdDialog) {
+.controller('indexCtrl',function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,APIsEndPoint,$mdDialog,flowtoUtil) {
+	$scope.click_back=function(){
+		flowtoUtil.click_back();
+	};
 	$scope.credentials={};
 	$scope.u={}; // for keep user detail
 	$scope.islogin=FlowtoUser.isAuthenticated();
@@ -60,7 +63,10 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		alert($scope.u.username);
 	};
 })
-.controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog) {
+.controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog,flowtoUtil) {
+	$scope.click_back=function(){
+		flowtoUtil.click_back();
+	};
 	$scope.credentials={};
 	$scope.u={}; // for keep user detail
 	$scope.islogin=FlowtoUser.isAuthenticated();
@@ -278,7 +284,10 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		$mdDialog.cancel();
 	};
 })
-.controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,Assignment,APIsEndPoint,$interval,APP_CFG) {	
+.controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,Assignment,APIsEndPoint,$interval,APP_CFG,flowtoUtil) {	
+	$scope.click_back=function(){
+		flowtoUtil.click_back();
+	};
 	// init 
 	// 1) check if logedin
 	// 2) create folder for upload media by username

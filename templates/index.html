@@ -9,7 +9,8 @@
 {%block headermenu%}
 	<div id="home" class="banner" >
 	<div class="container">
-		<div class="head-logo">
+		<div class="head-logo" layout="row" layout-align="center center">
+			<a href="#"><img src="images/logo_f3.png" alt=" " style="width:36px;height:36;"></a>
 			<a href="#"><img src="images/logo.png" alt=" "></a>
 		</div>
 {%verbatim%}
@@ -18,6 +19,8 @@
 				<ul class="nav1">
 					<li><a href="#">Credit</a></li>
 					<li><a href="account.html">My Account</a></li>
+					<li><md-divider></md-divider></li>
+					<li><a href="#" ng-click="logout();">Logout</a></li>
 					<div class="clearfix"> </div>
 				</ul>
 		</div>
@@ -25,6 +28,7 @@
 		<div class="clearfix"> </div>
 {%endblock%}
 		{%block headerinfo%}
+{%verbatim%}
 		<div class="banner-info">
 			<div ng-if="!islogin">
 			<h2>THIS TOOL</h2>
@@ -39,10 +43,29 @@
 			<div class="clearfix"> </div>
 			</div><!--ng-if-->
 			<div ng-if="islogin">
-			<div id="user-dashboard">
-{%include "_user-dashboard.inc"%}
-			</div>
-			<div class="clearfix"> </div>
+				<h2>{{u.username}}</h2>
+			<p layout="column">
+				<span><b>Username : </b>{{u.username}}</span>
+				<span><b>email : </b>{{u.email}}</span>
+				<span><b>your curent assignment : </b>{{assignmentName}}</span>
+			</p>
+			<p layout="column" layout-align="center center">
+			<md-button class="md-raised md-accent">
+				<a href="dash.html">Assignment list</a>
+			</md-button>
+			<md-button class="md-raised md-warn" layout="row">
+			<a href="preview.html">
+				<img src="images/ic_camera_alt_black_48dp.png" />
+				Take a Flowto
+			</a>
+			</md-button>
+			<md-button class="md-raised md-primary" layout="row">
+			<a href="map.html">
+				<img src="images/ic_pin_drop_black_48dp_2x.png" style="width:48px;height:48px;"/>
+				Map
+			</a>
+			</md-button>
+			</p>
 			</div><!--ng-if-->
 		</div><!--banner-info-->
 <!--	<div class="banner-icons" style="margin-left:10px;">
@@ -52,9 +75,10 @@
 			</ul>
 		</div>
 		-->	
+{%endverbatim%}
 		{%endblock%}
 {%block content%}
-{%include "_profile.inc"%}
+
 {%endblock%}
 
 

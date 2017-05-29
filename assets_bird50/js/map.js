@@ -25,11 +25,15 @@ angular.module('flowtoMap',['ngRoute','lbServices','flowtomodule'])
 })
 
 .controller('mapCtrl',
-function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams) {
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil) {
 
 })
 .controller('mainmapCtrl',
-function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams) {
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil) {
+	
+	$scope.click_back=function(){
+		flowtoUtil.click_back();
+	};
 	//alert(APIsEndPoint);
 
 //console.log('location :'+$location.absUrl());

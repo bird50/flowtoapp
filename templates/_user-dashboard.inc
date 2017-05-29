@@ -1,5 +1,9 @@
 {%verbatim%}
-<div layout-align="center center" layout="row"><a class="flowtobutton" href="preview.html"><img src="images/ic_camera_alt_black_48dp.png"> Take a FLOWTO </a></div>
+<div layout-align="center center" layout="row">
+	<a class="flowtobutton" href="preview.html">
+		<img src="images/ic_camera_alt_black_48dp.png"> Take a FLOWTO 
+	</a>
+</div>
 <!--user dashboard-->
 <div layout="row" layout-wrap layout-align="left top">
 	<div flex-gt-xs="55" flex-xs="100" layout="column" >
