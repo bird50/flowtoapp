@@ -9,7 +9,7 @@
 							<div class="service-bottom-right">
 								<h2>{{u.username}}</h2>
 								<p>
-									Username:{{u.username}}<br/>
+									Username:{{u.username}}  <br/>
 									email:{{u.email}}
 								</p>
 								<!--<div class="banner1-icons">

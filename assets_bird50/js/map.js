@@ -144,8 +144,6 @@ $scope.photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('cli
 		//$scope.u.userLetter=$scope.u.username.toUpperCase();
 	}
 	
-	
-
 $scope.getParameterByName=function(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
@@ -295,7 +293,9 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 			"flowtoUser":data.flowtoUser.username,
 			"flowtoUserEmail":data.flowtoUser.email,
 			"flowtodate":moment(data.flowtodate).fromNow(),
-			"media_container":data.media_container
+			"media_container":data.media_container,
+			"lat":data.position.lat,
+			"lng":data.position.lng
 		};
 		console.info("flowto dat:",data);
 		console.info("flowto_in:",$scope.thisFlowto);

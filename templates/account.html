@@ -1,0 +1,63 @@
+{%extends "_blank.html"%}
+{%block js%}
+{{super()}}
+<script src="js/angular-file-upload.min.js"></script>
+{%endblock%}
+{%block body_tag%} ng-app="flowtong" ng-controller="profileCtrl" ng-cloak{%endblock%}
+{%block content%}
+<div layout="column" flex layout-fill>
+{%verbatim%}
+<md-toolbar md-scroll-shrink>
+	<div class="md-toolbar-tools" layout="row" layout-padding layout-fill layout-align="center center">
+			<md-button ng-click="click_back();">back</md-button>
+			<span flex layout="row" layout-padding layout-fill layout-align="center center"><span>{{word.app_name}} Account</span></span>
+			<span><md-button ng-click="click_save();">save</md-button></span>
+	</div>
+</md-toolbar>
+
+<md-content flex>
+
+<md-subheader class="md-accent" layout="column">
+<div layout="row" layout-align="center center">
+	<img src="{{u.avatar}}" style="width:56px;height56px;" class="md-avatar"/>
+	<input class="btn btn-xs btn-default" nv-file-select uploader="uploader" type="file" accept="image/*"  id="fileinput" value="Change"/>
+	<span flex></span>
+	<md-input-container >
+		<label>email:</label>
+		<input ng-model="u.email" ng-disabled="true"></input>
+	</md-input-container>
+	
+</div>
+</md-subheader>
+<div  layout="column" style="overflow:scroll;" >
+	<div layout="row" layout-padding layout-align="left">
+		<md-input-container >
+			<label>Username:</label>
+			<input ng-model="u.username" ng-disabled="false"></input>
+		</md-input-container>
+	</div>
+	<div layout="row" layout-padding layout-align="center">
+		<md-input-container flex>
+			<label>description:</label>
+			<input ng-model="u.profile" ng-disabled="false"></input>
+		</md-input-container>
+	</div>
+	<div layout="row" layout-padding layout-align="left">
+		<md-input-container >
+			<label>your word:</label>
+			<input ng-model="u.word" ng-disabled="false"></input>
+		</md-input-container>
+	</div>
+	<md-divider></md-divider>	
+</div>
+</md-content>
+
+{%endverbatim%}
+{%endblock%}
+
+{%block js_end%}
+{%verbatim%}
+
+{%endverbatim%}
+{%endblock%}
+
