@@ -251,7 +251,7 @@ $scope.showConfirm = function(ev) {
   };
 		*/
 		var myconfirm = $mdDialog.confirm()
-			.title('Would you like to delete your Flowto?')
+			.title('Would you like to delete this Flowto?')
 			.textContent('Would you like to delete this Flowto?')
 			.ariaLabel('Lucky day')
 			.targetEvent(ev)
@@ -269,14 +269,17 @@ $scope.showConfirm = function(ev) {
 	
 })
 .controller('flowtoCtrl',
-function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams) {
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil) {
+	$scope.click_back=function(){
+		flowtoUtil.click_back();
+	};
 	moment.locale('th');
 	$scope.params=$routeParams;
 	$scope.thisFlowto={
 			"id":0,
 			"media_name":"no media",
 			"caption":"",
-		"img_url": "images/4.jpg"
+		"img_url": "images/flowto_bg01.png"
 	};
 	var flowto_find_params={
 		"id":$scope.params.flowtoId,
@@ -308,7 +311,48 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 		console.log("nothing");
 	}
 	);
+	
+	
+	$scope.click_more_vert_btn=function(){
+        $mdBottomSheet.show({
+          templateUrl: 'fowto_morevert.html',
+          controller: 'fowto_morevertCtrl',
+ 			locals:{
+ 				"data":{
+ 			 	   "f_id":$scope.thisFlowto.id
+ 			   	}
+ 		   }
+        }).then(function(data) {
+			console.info('click what',data);
+		});
+	};//click_more_vert_btn
 
+})
+.controller('fowto_morevertCtrl',function($scope,Flowto,$mdDialog,$mdBottomSheet,data,flowtoMsg){
+	$scope.removeFlowto=function(){
+		var myconfirm = $mdDialog.confirm()
+			.title('Would you like to delete your Flowto?')
+			.textContent('Would you like to delete this Flowto?')
+			.ariaLabel('Lucky day')
+			//.targetEvent(ev)
+			.ok('OK Remove NOW.')
+			.cancel('CANCEL');
+		$mdDialog.show(myconfirm).then(function() {
+			Flowto.destroyById({"id":data.f_id}).$promise
+			.then(function(){
+				flowtoMsg.alert('Flowto id '+data.f_id+' was deleted.');
+				$mdBottomSheet.hide();
+			},function(err){
+				flowtoMsg.alert('Can not delete Flowto id '+data.f_id+'.!!!\nMay be you are not  owner of this flowto.');
+			});
+			
+		//cancle btn
+		}, function() {
+			return;
+		});
+		
+	}
+	
 })
 //  credit -->http://stackoverflow.com/questions/15610501/in-angular-i-need-to-search-objects-in-an-array
 .filter('find_index_of_photos_by_f_id', function() {

@@ -44,8 +44,8 @@
 <script type="text/ng-template" id="mainmap.html">
  <md-toolbar class="md-primary">
       <div class="md-toolbar-tools" layout="row" layout-padding>
-        <md-button ng-click="click_back();">
-			back
+        <md-button >
+			<a href="index.html">back</a>
 		</md-button><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
           <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
         </md-button>--> 
@@ -56,7 +56,7 @@
         <h2>
           <span>- {{assignmentName}}</span>
         </h2>-->
-        <md-button class="md-icon-button" aria-label="More">
+        <md-button class="md-icon-button" aria-label="More" ng-click="showListBottomSheet(thisFlowto.id)">
           <img src="images/more_vert_white_48x48.png" style="height:24;width:24;"/>
         </md-button>
       </div>
@@ -72,15 +72,15 @@
 {%verbatim%}
  <md-toolbar class="md-primary">
       <div class="md-toolbar-tools" layout="row" layout-padding>
-        <md-button>
-			<a href="#/"><img src="images/ic_keyboard_backspace_black_48dp_2x.png" style="width:24px;height:24px;"/></a>
+        <md-button ng-click="click_back();">
+			<img src="images/ic_keyboard_backspace_white_48dp_2x.png" style="width:24px;height:24px;"/>
 		</md-button><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
           <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
         </md-button>--> 
 		<div style="overflow:hidden;text-overflow:ellipsis; " flex>
 			flowto-id: {{params.flowtoId}}
 		</div>
-		<md-button ng-click="null"><img src="images/more_vert_white_48x48.png" style="width:24px;height:24px;"/></md-button>
+		<md-button ng-click="click_more_vert_btn()"><img src="images/more_vert_white_48x48.png" style="width:24px;height:24px;"/></md-button>
       </div>
 </md-toolbar>
 <div flex layout="column" layout-fill>
@@ -119,6 +119,24 @@ style="
 </div>
 </div>
 {%endverbatim%}
+</script>
+
+<!--fowto_morevert.html-->
+<script type="text/ng-template" id="fowto_morevert.html">
+<md-bottom-sheet class="md-list md-has-header md-primary" style="z-index:1001;">
+  <!--ใช้ z-index 701 เพราะ  ค่า default คือ 80 ไม่พอกับ map overlay-->
+  <md-subheader ng-cloak md-warn><span class="md-warn"> action</span></md-subheader>
+  <md-list ng-cloak>
+    <md-list-item >
+      <md-button class="md-warn"
+          ng-click="removeFlowto();"
+          md-autofocus="false"
+          class="md-list-item-content md-accend md-raised" >
+        <span class="md-inline-list-icon-label md-primary">Remove</span>
+      </md-button>
+    </md-list-item>
+  </md-list>
+</md-bottom-sheet>
 </script>
 {%endblock%}
 </body>

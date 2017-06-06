@@ -69,13 +69,13 @@ angular.module('flowtomodule',['ngMaterial'])
 		navigator.app.backHistory();
 	};
 	this.valid_image=function(url){
-		return(url.match(/\.(jpeg|jpg|gif|png|JPG|PNG)$/) != null);
+		return(url.match(/\.(jpeg|jpg|gif|png|JPG|PNG|JPEG|GIF)$/) != null);
 	};
 	
 	//ใช้สำหรับ valid url ว่าเป็น  extention รูป หรือไม่ ถ่าไม่ใช้ รูปที่ระบุ
 	this.image_avatar=function(url,err_url){
 		if(!url||url === null){url="";}
-		if(url.match(/.*\.(jpeg|jpg|gif|png|JPG|PNG)$/) != null){
+		if(url.match(/.*\.(jpeg|jpg|gif|png|JPG|PNG|JPEG|GIF)$/) != null){
 			console.log('avatar ok'+url);
 			return url;
 		}else{
