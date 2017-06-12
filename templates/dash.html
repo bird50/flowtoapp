@@ -118,7 +118,8 @@
         </md-button>
       </div>
     </md-toolbar>
-
+		   
+	
     <md-dialog-content>
       <div class="md-dialog-content" layout="column">
 		  <md-input-container class="md-block" flex-gt-sm>
@@ -129,10 +130,10 @@
 		  	<label>Description</label>
 			<textarea ng-model="new_assignment.description" rows="5" md-select-on-focus></textarea>
 		  </md-input-container>
-		  <md-input-container>
-		  <label>Important Rate</label>
-		  <md-slider flex class="md-accent" md-discrete="" ng-model="new_assignment.priority" step="1" min="1" max="5" aria-label="rating">
-		  </md-input-container>
+ 		   <md-slider-container layout="column" layout-align="center center">
+ 		  <label>Important Rate</label>
+ 		  <md-slider flex class="md-accent" ng-model="new_assignment.priority" step="1" min="1" max="5" aria-label="rating">
+		  </md-slider-container>
      </div>
     </md-dialog-content>
 

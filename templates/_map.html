@@ -44,13 +44,13 @@
 <script type="text/ng-template" id="mainmap.html">
  <md-toolbar class="md-primary">
       <div class="md-toolbar-tools" layout="row" layout-padding>
-        <md-button >
-			<a href="index.html">back</a>
+        <md-button ng-click="click_back();">
+			<img src="images/ic_keyboard_backspace_white_48dp_2x.png" style="width:24px;height:24px;"/>
 		</md-button><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
           <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
         </md-button>--> 
 		<div style="overflow:hidden;text-overflow:ellipsis; " flex>
-			- {{assignmentName}}
+			{{assignmentName}}
 		</div>
 		<!--
         <h2>

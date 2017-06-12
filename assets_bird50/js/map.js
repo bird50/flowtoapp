@@ -34,15 +34,22 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};
+	
+	$scope.go2url=function(the_url){
+		$window.location.href = the_url;
+		return;
+	};
 	//alert(APIsEndPoint);
 
 //console.log('location :'+$location.absUrl());
 moment.locale('th');
-const m1 = L.marker([51.50313, -0.091223]);
-const m2 = L.marker([51.50614, -0.0989]);
-const m3 = L.marker([51.50915, -0.096112]);
+//const m1 = L.marker([51.50313, -0.091223]);
+//const m2 = L.marker([51.50614, -0.0989]);
+//const m3 = L.marker([51.50915, -0.096112]);
 
 const map4 = L.map('example4').setView([13.7882305556,100.5101], 13);
+
+
 
 map4.attributionControl.setPrefix(false); // remov leaflet attribution
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

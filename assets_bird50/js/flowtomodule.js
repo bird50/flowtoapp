@@ -62,11 +62,11 @@ angular.module('flowtomodule',['ngMaterial'])
      }
 	
 })
-.service('flowtoUtil',function(){
+.service('flowtoUtil',function($window,APP_CFG){
 	this.click_back=function(){
 		//credit-->https://stackoverflow.com/questions/16542118/phonegap-navigator-app-backhistory-not-working-on-html-back-button
 		history.go(-1);
-		navigator.app.backHistory();
+		//navigator.app.backHistory();
 	};
 	this.valid_image=function(url){
 		return(url.match(/\.(jpeg|jpg|gif|png|JPG|PNG|JPEG|GIF)$/) != null);
@@ -83,6 +83,10 @@ angular.module('flowtomodule',['ngMaterial'])
 			return err_url;
 		}
 		
+	};
+	this.go2url=function(this_url){
+		 $window.location.href = this_url;
+		 return;
 	};
 })
 .constant(

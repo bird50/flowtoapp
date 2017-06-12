@@ -25,6 +25,10 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		//$scope.u.userLetter=$scope.u.username.toUpperCase();
 		
 	}
+	$scope.go2url=function(the_url){
+		$window.location.href = the_url;
+		return;
+	};
 	$scope.login = function() {
 		//console.log($scope.credentials);
 		$scope.loginResult = FlowtoUser.login($scope.credentials,
@@ -196,6 +200,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	$scope.showListBottomSheet=function(assignmentId,assignmentName){
 	    $scope.alert = '';
 	       $mdBottomSheet.show({
+			 clickOutsideToClose:true,
 	         templateUrl: 'bottom-sheet-list-template.html',
 	         controller: 'ListBottomSheetCtrl'
 	       }).then(function(clickedItem) {
@@ -400,7 +405,13 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 					}else{
   	  				item.exif.lat=parseLatvalue(data.exif.get('GPSLatitude'));
   	  				item.exif.lng=parseLatvalue(data.exif.get('GPSLongitude'));
-					item.exif.DateTime= exifDate2moment(data.exif.get('DateTime'));//data.exif.get('DateTime');
+					if(item.exif.lat==0){
+						flowtoMsg.alert('ไม่สามารถอ่านค่าพิกัดได้!!!');
+						item.remove();
+					}
+					//console.info('exifdat:',data.exif.getAll());
+					//item.exif.DateTime= exifDate2moment(data.exif.get('DateTime'));//data.exif.get('DateTime');
+					item.exif.DateTime= exifDate2moment(data.exif.get('DateTimeOriginal'));//data.exif.get('DateTime');
 					item.flowto.username=$scope.u.username;
 					//item.flowto.caption="Hello msg";
 					//item.exif.DateTime= data.exif.get('DateTime');//data.exif.get('DateTime');
@@ -638,6 +649,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	    a.readAsDataURL(blob);
 	}
 	function exifDate2moment(exifDate){
+		console.log('exifdate:',exifDate);
 	   var dateArray=exifDate.split(' ');
 	   var dateArray2=dateArray[0].split(':');
    
@@ -750,6 +762,12 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	}
 	
 })
+.controller('creditCtrl', function($scope,flowtoUtil){
+	$scope.click_back=function(){
+		flowtoUtil.click_back();
+	};
+
+}) //creditCtrl
 .config(function(LoopBackResourceProvider,APIsEndPoint) {
 
     // Use a custom auth header instead of the default 'Authorization'
