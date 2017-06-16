@@ -118,7 +118,8 @@ $scope.photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('cli
 								console.log(data);
 								$scope.photos = [];
 								for (var i = 0; i < data.length; i++) {
-									console.info('user:'+data[i].flowtoUser);
+									//console.info('user:'+data[i].flowtoUser);
+									if(!data[i].caption){data[i].caption=" ";}
 									var photo = {
 									//	url:'http://192.168.59.103:3001/api/media/'+data[i].media_container+'/download/'+data[i].media_name,
 										//url:APIsEndPoint.url+'/media/'+data[i].media_container+'/download/'+data[i].media_name,

@@ -628,7 +628,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	*/
 	
 	function parseLatvalue(latString){
-		if((latString==null) || (latString=="")){return "";}
+		if((latString==null) || (latString=="")){return 0;}
 		
 		var str=String(latString);
 		var ar=str.split(",");

@@ -76,6 +76,10 @@ app.get('/test',function(req,res){
 	  }
 	});
 });
+app.get('/map',function(req,res){
+    var htmlstring=nunjucks.render("map.html",app_cfg);
+    res.send(htmlstring);
+});
 
 app.listen(3000);
 
