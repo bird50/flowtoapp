@@ -13,7 +13,7 @@
 	<div flex-gt-xs="50" flex-xs="100" layout="column" style="height:350px;">
 	<md-input-container class="md-block">
 		          <label>CAPTION...</label>
-		          <textarea ng-model="ft.flowto.caption"  rows="5" md-select-on-focus></textarea>
+		          <textarea ng-model="ft.flowto.caption"  rows="5" ></textarea>
 	</md-input-container>
 	<div flex style="overflow:scroll;">
 	<img ng-src="{{ft.imgsrc}}" style=" display: block;

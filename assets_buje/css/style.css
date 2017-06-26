@@ -2678,3 +2678,10 @@ button:hover.flowtobutton,a:hover.flowtobutton;{
 .toggle.ng-hide-remove.ng-hide-remove-active {
     opacity: 1;
 }
+.link_a{
+	border-bottom:1px dashed #798189;
+	padding: 5px 10px 0 0px;
+	font-size:13px;
+	margin:0px;
+	color:#798189;
+}

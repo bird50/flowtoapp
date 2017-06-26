@@ -29,7 +29,7 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 
 })
 .controller('mainmapCtrl',
-function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil) {
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil,$mdMenu) {
 	
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
@@ -76,6 +76,8 @@ $scope.photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('cli
 		//map4.removeLayer(evt.layer.photo);
 });
 
+//$scope.search_ac=$location.search('flowtoId');
+//console.info('search:',$scope.search_ac);
 
 	$scope.credentials={};
 	$scope.u={}; // for keep user detail
@@ -308,6 +310,7 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 			"flowtoUser":data.flowtoUser.username,
 			"flowtoUserEmail":data.flowtoUser.email,
 			"flowtodate":moment(data.flowtodate).fromNow(),
+			"flowtodate_thai":moment(data.flowtodate).format('llll'),
 			"media_container":data.media_container,
 			"lat":data.position.lat,
 			"lng":data.position.lng

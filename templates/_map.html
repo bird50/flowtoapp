@@ -49,8 +49,13 @@
 		</md-button><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
           <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
         </md-button>--> 
-		<div style="overflow:hidden;text-overflow:ellipsis; " flex>
-			{{assignmentName}}
+		<div class="md-truncate"  flex>
+		<md-menu>
+			<span ng-click="$mdMenu.open()">{{assignmentName}}</span>
+			<md-menu-content width="4">
+				<md-menu-item >Hello</md-menu-item>
+			</md-menu-content>
+		</md-menu>
 		</div>
 		<!--
         <h2>
@@ -98,7 +103,8 @@ style="
 <md-button ><a href="{{thisFlowto.img_url}}"><img src="images/ic_image_black_48dp_2x.png" style="width:32px;height:32px;"/></a></md-button></div>
 </div>
 <div flex="50" style="overflow:scroll;" layout="column" layout layout-align="top">
-		<div layout="row" layout-align="left center" layout-padding>
+<div style="overflow-y:scroll;">
+		<div layout="row" layout-align="left top" layout-padding >
 			<span class="md-body-2">{{thisFlowto.flowtoUser}}</span> 
 			<span class="md-body-1">{{thisFlowto.caption}}</span>
 		</div>
@@ -109,30 +115,53 @@ style="
 
 		<div layout="row" layout-padding layout-align="right center">
 			<span flex></span>
-			<span class="md-caption" style="color:#b7b3b3;">{{thisFlowto.flowtodate}}</span> 
+			<span class="md-caption" style="color:#b7b3b3;">{{thisFlowto.flowtodate_thai}} ({{thisFlowto.flowtodate}})</span>
 		</div>
 		<div layout="row" layout-align="right center" layout-padding>
 			<span flex></span>
 			<span class="md-body-1 md-accent">Assignment:</span> 
 			<span class="md-body-1 md-accent" style="text-decoration:underline;">{{thisFlowto.assignmentName}}</span>
 		</div>
-</div>
+</div><!--overflow-y-->
+</div><!--flex=50-->
 </div>
 {%endverbatim%}
 </script>
 
+<script type="text/ng-template" id="copyFlowto.html">
+{%verbatim%}
+ <md-toolbar class="md-primary">
+      <div class="md-toolbar-tools" layout="row" layout-padding>
+        <md-button ng-click="click_back();">
+			<img src="images/ic_keyboard_backspace_white_48dp_2x.png" style="width:24px;height:24px;"/>
+		</md-button>
+		<div md-truncate flex>
+			copy Flowto
+		</div>
+      </div>
+</md-toolbar>
+{%endverbatim%}
+</script>
 <!--fowto_morevert.html-->
 <script type="text/ng-template" id="fowto_morevert.html">
 <md-bottom-sheet class="md-list md-has-header md-primary" style="z-index:1001;">
   <!--ใช้ z-index 701 เพราะ  ค่า default คือ 80 ไม่พอกับ map overlay-->
-  <md-subheader ng-cloak md-warn><span class="md-warn"> action</span></md-subheader>
+  <md-subheader ng-cloak md-primary><span class="md-warn"> action</span></md-subheader>
   <md-list ng-cloak>
+    <md-list-item >
+      <md-button class="md-accend"
+          ng-click="copyFlowto();"
+          md-autofocus="false"
+          class="md-list-item-content md-accend md-raised" >
+        <span class="md-inline-list-icon-label md-accend">Copy to Your Assignment</span>
+      </md-button>
+    </md-list-item>
     <md-list-item >
       <md-button class="md-warn"
           ng-click="removeFlowto();"
           md-autofocus="false"
-          class="md-list-item-content md-accend md-raised" >
-        <span class="md-inline-list-icon-label md-primary">Remove</span>
+          class="md-list-item-content md-warn md-raised" >
+        <span class="md-inline-list-icon-label md-warn">Remove</span>
       </md-button>
     </md-list-item>
   </md-list>

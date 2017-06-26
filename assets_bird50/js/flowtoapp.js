@@ -67,7 +67,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		alert($scope.u.username);
 	};
 })
-.controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog,flowtoUtil) {
+.controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog,$mdMenu,flowtoUtil) {
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};
