@@ -202,6 +202,7 @@ $scope.showListBottomSheet=function(f_id){
 				//   alert('not remove');
 			   	flowtoMsg.alert('Can not remove this Flowto.\n May be you are not  owner of this flowto.');
 			   });
+		   
 		   }else{
 		   	 return
 		   }
@@ -275,11 +276,12 @@ $scope.showConfirm = function(ev) {
 			//$mdBottomSheet.hide(item);
 		});
 		
-	};
+	}; // removeFlowto
+	
 	
 })
 .controller('flowtoCtrl',
-function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil) {
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil,WORD) {
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};
@@ -310,6 +312,7 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 			"flowtoUser":data.flowtoUser.username,
 			"flowtoUserEmail":data.flowtoUser.email,
 			"flowtodate":moment(data.flowtodate).fromNow(),
+			"flowtodate_script":data.flowtodate,
 			"flowtodate_thai":moment(data.flowtodate).format('llll'),
 			"media_container":data.media_container,
 			"lat":data.position.lat,
@@ -335,6 +338,54 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
  		   }
         }).then(function(data) {
 			console.info('click what',data);
+			if(data=="copyFlowto"){
+				
+				FlowtoUser.getCurrent().$promise
+				.then(function(data){
+					//alert('data:'+data.activateAssignment+',cur:'+$scope.thisFlowto.assignmentId);				
+					
+					if(data.activateAssignment==$scope.thisFlowto.assignmentId){
+						flowtoMsg.alert(WORD.canNotCopyFlowto);
+						return;
+					}else{
+						//start create
+						 // inputTextArea(label,value,content)
+						Assignment.findById({"id":data.activateAssignment}).$promise
+						.then(function(Assignment_dat){
+							
+						
+						var content='<span class="md-caption">Copy flowto from assignment <br/><b>'+$scope.thisFlowto.assignmentName;
+						content+='</b><br/> to  <br/><b>'+Assignment_dat.assignmentName+'</b></span>';
+						var label="Re caption";
+						var value=$scope.thisFlowto.flowtoUser+" : "+$scope.thisFlowto.caption;
+						flowtoMsg.inputTextArea(label,value,content)
+						.then(function(data_m){
+						//alert(data_m);
+						$scope.flowto_me = Flowto.create({ 
+							"position":{
+								"lat":$scope.thisFlowto.lat,
+								"lng":$scope.thisFlowto.lng
+							},
+							"caption":data_m,
+							"flowtodate" :$scope.thisFlowto.flowtodate_script,
+							"media_name":$scope.thisFlowto.media_name,
+							"media_container":$scope.thisFlowto.media_container,
+							"flowtoUserId":data.id,
+							"assignmentId":data.activateAssignment
+						}).$promise
+						.then(function(dat){
+							console.info("createFlowto:"+dat);
+							flowtoMsg.alert(WORD.copyFlowtoSuccessfully);
+						},function(err){
+							console.log("create flowto fail");
+						});
+						//stop create
+						});//inputTextArea
+						}); //Assignment.findById
+					}// end if
+				});//promise getcurent user
+				
+			}
 		});
 	};//click_more_vert_btn
 
@@ -362,7 +413,11 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 			return;
 		});
 		
-	}
+	};// end remove
+	$scope.copyFlowto=function(){
+		
+		$mdBottomSheet.hide('copyFlowto');
+	};//copyFlowto
 	
 })
 //  credit -->http://stackoverflow.com/questions/15610501/in-angular-i-need-to-search-objects-in-an-array

@@ -46,6 +46,7 @@
 	</div>
 </md-toolbar>
 {%endverbatim%}
+
 <md-content flex>
 
 <section>
@@ -128,7 +129,8 @@
 </script>
 
 <script type="text/ng-template" id="createAssignment.tmpl.html">
-<md-dialog aria-label="FLOWTO">
+   
+<div >
   <form ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -139,37 +141,37 @@
         </md-button>
       </div>
     </md-toolbar>
-		   
-	
-    <md-dialog-content>
-      <div class="md-dialog-content" layout="column">
+    <div>
+	   
+      <div  layout="column">
 		  <md-input-container class="md-block" flex-gt-sm>
             <label>Assignment</label>
             <input ng-model="new_assignment.assignmentName">
           </md-input-container>
 		  <md-input-container class="md-block">
 		  	<label>Description</label>
-			<textarea ng-model="new_assignment.description" rows="5" md-select-on-focus></textarea>
+			<textarea ng-model="new_assignment.description" rows="5"></textarea>
 		  </md-input-container>
- 		   <md-slider-container layout="column" layout-align="center center">
- 		  <label>Important Rate</label>
- 		  <md-slider flex class="md-accent" ng-model="new_assignment.priority" step="1" min="1" max="5" aria-label="rating">
-		  </md-slider-container>
+		   <div layout="row" layout-align="center center">
+		  <span flex="10">Important Rate</span>
+		  <md-slider flex class="md-accent" ng-model="new_assignment.priority" step="1" min="1" max="5" aria-label="rating">
+		  </div>
      </div>
-    </md-dialog-content>
+    </div>
 
     <md-dialog-actions layout="row">
-      <span flex></span>
-      <md-button ng-click="cancel()">
+     
+      <md-button ng-click="cancel()" class="md-warn">
         Cancel
       </md-button>
+	   <span flex></span>
       <md-button ng-click="createAssignment()">
        Create
       </md-button>
       
     </md-dialog-actions>
   </form>
-</md-dialog>
+</div>
 </script>
 {%endverbatim%}
 {%endblock%}

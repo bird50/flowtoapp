@@ -761,7 +761,25 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	    a.readAsDataURL(blob);
 	}
 	
-})
+}) // end profileCtrl
+.controller('viewProfileCtrl', function($scope,flowtoUtil){
+	$scope.click_back=function(){
+		flowtoUtil.click_back();
+	};
+	$scope.credentials={};
+	$scope.viewUser={}; 
+	// for keep user detail
+	$scope.islogin=FlowtoUser.isAuthenticated();
+	if($scope.islogin){
+		FlowtoUser.finById({"id":1}).$promise
+		.then(function(data){
+			$scope.viewUser=data;
+		},function(){
+			console.log('cannot find this user');
+		});
+	}
+
+}) //creditCtrl
 .controller('creditCtrl', function($scope,flowtoUtil){
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
@@ -776,6 +794,24 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
     // Change the URL where to access the LoopBack REST API server
     //LoopBackResourceProvider.setUrlBase('http://192.168.59.103:3001/api');
 	LoopBackResourceProvider.setUrlBase(APIsEndPoint.url);
-});
+})
+.config(
+  function($routeProvider, $locationProvider) {
+    $routeProvider
+       // for account.html
+      .when('/user/:userId', {
+        templateUrl: 'viewUser.html',
+        controller: 'viewProfileCtrl'
+      });
+
+   /*   .when('/Book/:bookId/ch/:chapterId', {
+        templateUrl: 'chapter.html',
+        controller: 'ChapterCtrl',
+        controllerAs: 'chapter'
+      });
+*/
+    //$locationProvider.html5Mode(true);
+})
+;
 
 

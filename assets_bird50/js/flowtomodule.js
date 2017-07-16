@@ -18,13 +18,50 @@ angular.module('flowtomodule',['ngMaterial'])
 					.title('FLOWTO')
 				.textContent(say)
 				.ariaLabel('Alert Dialog')
-				.ok('ทราบ!')
+				.ok('OK!')
 				.targetEvent()
 			);
 	};
-
+	this.inputTextArea=function(label,value,content){
+		var confirm = $mdDialog.confirm({
+		      controller: 'inputTextAreaController',
+		      template:
+			'<md-toolbar><div class="md-toolbar-tools"><span class="md-caption">Flowto</span></div></md-toolbar>'+
+			'<div layout="column" layout-padding>'+
+			'<div><md-content ng-bind-html="content"></md-content></div>'+
+			'<md-input-container class="md-block">'+
+		  	'<label>{{label}}</label>'+
+			'<textarea ng-model="message" rows="5" md-select-on-focus></textarea>'+
+		  '</md-input-container>'+
+			//'<md-divider></md-divider>'+
+			'<div layout="row" layout-padding>'+
+			'<md-button class="md-warn" ng-click="click_cancel();">Cancel</md-button><span flex></span>'+
+			'<md-button class="md-primary" ng-click="click_ok();">OK</md-button>'+
+			'</div>'+
+			'</div>',
+		      locals: {
+				  "data": {
+					  "label":label,
+					  "value":value,
+					  "content":content
+				  }
+			  },
+		      parent: angular.element(document.body)
+		   });
+		   return $mdDialog.show(confirm);
+	};
 })
-
+.controller('inputTextAreaController',function($scope,$mdDialog,data,$sce){
+	$scope.message=data.value;
+	$scope.label=data.label;
+	$scope.content=$sce.trustAsHtml(data.content);
+	$scope.click_ok=function(){
+		$mdDialog.hide($scope.message);
+	};
+	$scope.click_cancel=function(){
+		$mdDialog.cancel();
+	};
+})
 .service('flowtoPreview',function($mdDialog){
 	this.flowtoDialog=function(ev){
 		$mdDialog.show({
@@ -103,6 +140,12 @@ angular.module('flowtomodule',['ngMaterial'])
 		'avatar_url':'http://bid.rid.go.th:3001/profile_pics/thumb',
 		'avatar_url_post':'http://bid.rid.go.th:3001/profile_upload'
 		
+	}
+)
+.constant(
+	'WORD',{
+		'canNotCopyFlowto':'ไม่สามารถ copy Flowto ได้',
+		'copyFlowtoSuccessfully':'Copy Flow เรียบร้อยแล้ว'
 	}
 )
 .config(function($mdThemingProvider) {
