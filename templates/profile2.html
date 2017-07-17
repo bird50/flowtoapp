@@ -1,0 +1,49 @@
+{%extends "_blank.html"%}
+{%block js%}
+{{super()}}
+<script src="js/angular-file-upload.min.js"></script>
+{%endblock%}
+{%block body_tag%} ng-app="flowtong" ng-controller="profileCtrl" ng-cloak{%endblock%}
+{%block content%}
+<div layout="column" flex layout-fill>
+{%verbatim%}
+<md-toolbar md-scroll-shrink>
+	<div class="md-toolbar-tools" layout="row" layout-padding layout-fill layout-align="center center">
+			<md-button ng-click="click_back();">back</md-button>
+			<span flex layout="row" layout-padding layout-fill layout-align="center center"><span>{{word.app_name}} Account</span></span>
+			<span><md-button></md-button></span>
+	</div>
+</md-toolbar>
+{%endverbatim%}
+<md-content flex>
+{%verbatim%}
+<md-subheader class="md-accent" layout="column">
+<div layout="row" layout-align="center center"><img src="{{u.avatar}}" style="width:48px;height48px;" class="md-avatar"/></div>
+</md-subheader>
+
+<div flex layout="column" style="overflow:scroll;" >
+	<div layout="row" layout-padding layout-align="center center">
+		<md-input-container >
+			<label>Username:</label>
+			<input ng-model="u.username" ng-disabled="false"></input>
+		</md-input-container>
+	</div>
+	<md-divider></md-divider>
+	<div layout="row" layout-padding >
+		<span flex="30" layout="row"><span flex></span><label>Profile:</label></span>
+		<span flex>{{u.profile}}</span>
+	</div>
+	<md-divider></md-divider>
+	
+</div>
+</md-content>
+
+{%endverbatim%}
+{%endblock%}
+
+{%block js_end%}
+{%verbatim%}
+
+{%endverbatim%}
+{%endblock%}
+

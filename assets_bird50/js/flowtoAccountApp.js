@@ -129,9 +129,23 @@ angular.module('flowtoAccountApp',['ngRoute','lbServices','flowtomodule','angula
 			console.log('cannot find this user');
 		});
 	}
-
 }) //viewProfileCtrl
-.controller('flowtoUserCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,$mdDialog,flowtoUtil,APP_CFG,FileUploader){
-
+.controller('flowtoUserCtrl', function($scope, FlowtoUser, $routeParams,flowtoMsg,$mdDialog,flowtoUtil,APP_CFG){
+	var params=$routeParams;
+	//console.info("route:",params);
+	$scope.user={};
+	var filter={
+		"Where": {"id":params.flowtoUserId}
+	};
+	if(params.flowtoUserId){
+		FlowtoUser.find(filter).$promise
+		.then(function(data){
+			console.info("user:",data[0]);
+			$scope.user=data[0];
+		});
+	}
+	$scope.click_back=function(){
+		flowtoUtil.click_back();
+	};
 })
 ;

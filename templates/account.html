@@ -16,8 +16,6 @@
 		<script src="js/jquery.min.js"></script>
 		<script src="js/moment-2.17.1.min.js"></script>
 		<script src="js/moment-2.17.1-th.js"></script>
-		
-
 <script src="js/angular-file-upload.min.js"></script>
 {%endblock%}
 {%block body_tag%} ng-app="flowtoAccountApp" ng-cloak{%endblock%}
@@ -25,13 +23,12 @@
 <div layout="column" flex layout-fill ng-view>
 </div><!--ng-view-->
 {%endblock%}
-
 {%block js_end%}
 <script type="text/ng-template" id="mainAccount.html">
 {%include "_mainAccount.inc"%}
 </script>
 <script type="text/ng-template" id="userAccount.html">
-{%include "_mainAccount.inc"%}
+{%include "_userAccount.inc"%}
 </script>
 {%endblock%}
 

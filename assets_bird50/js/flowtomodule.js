@@ -99,7 +99,7 @@ angular.module('flowtomodule',['ngMaterial'])
      }
 	
 })
-.service('flowtoUtil',function($window,APP_CFG){
+.service('flowtoUtil',function($window,APP_CFG,$location,$rootScope){
 	this.click_back=function(){
 		//credit-->https://stackoverflow.com/questions/16542118/phonegap-navigator-app-backhistory-not-working-on-html-back-button
 		history.go(-1);
@@ -125,6 +125,7 @@ angular.module('flowtomodule',['ngMaterial'])
 		 $window.location.href = this_url;
 		 return;
 	};
+	
 })
 .constant(
 	'APIsEndPoint',{
@@ -154,6 +155,22 @@ angular.module('flowtomodule',['ngMaterial'])
     .accentPalette('green')
 	.warnPalette('deep-orange')
 	//.dark();
+})
+.run(function($rootScope, $route,$location,$anchorScroll,$timeout){
+	$rootScope.scrollto={};
+	$rootScope.$on('$routeChangeSuccess', function(ev,cur_me, pass_me) {
+        //This will give the custom property that we have defined while configuring the routes.
+	console.info("cur_me:",cur_me);
+	console.info("pass_me:",pass_me);
+	if(pass_me.params.scrollback){
+		var lo_params=$location.search();
+ 		    //$location.hash(pass_me.params.scrollback);
+		
+			lo_params.scrollto=pass_me.params.scrollback;
+			
+			$location.search(lo_params);
+	}
+    });
 })
 //.constant('MediaEndPoint',{'url':'http://bid.rid.go.th:3001/flowtofiles'})
 //.constant('APIsEndPoint',{

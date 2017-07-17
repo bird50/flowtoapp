@@ -5,9 +5,17 @@
 {%endblock%}
 {%block body_tag%} ng-app="flowtong" ng-controller="LoginCtrl" ng-cloak{%endblock%}
 {%block content%}
-<div layout="column" flex layout-fill>
+<div layout="column" flex layout-fill ng-view>
+
+</div>
+
+{%endblock%}
+
+{%block js_end%}
 {%verbatim%}
-<md-fab-speed-dial md-open="demo.isOpen" md-direction="up" class="md-fling md-fab-bottom-right">
+<script type="text/ng-template" id="dash.html">
+
+<md-fab-speed-dial md-open="demo.isOpen" md-direction="up" class="md-fling md-fab-bottom-right" >
 	<md-fab-trigger>
 		<md-button aria-label="menu" class="md-fab md-warn ">
 			<img style="height:24px;width:24px;" src="images/menu_l.png">
@@ -45,12 +53,12 @@
 			</md-menu>
 	</div>
 </md-toolbar>
-{%endverbatim%}
+
 
 <md-content flex>
 
 <section>
-	{%verbatim%}
+
 	<md-subheader class="md-accent" layout="column">
 	<div layout="row" layout-wrap layout-fill layout-padding>
 		<div class="md-primary"  layout="row" layout-padding>
@@ -60,12 +68,11 @@
 		<span flex></span>
 	</div>
 	</md-subheader>
-	{%endverbatim%}
-{%verbatim%}
+
 	<md-list >
 		<md-list-item class="md-2-line" ng-repeat="item in assignments|filter:searchText as filtered" >
 		<md-divider></md-divider>
-		<div layout="row" layout-wrap layout-fill layout-align="cente center"><!--cover-->
+		<div layout="row" layout-wrap layout-fill layout-align="cente center" id="assignments_item_{{item.id}}"><!--cover-->
 		<!--first-->
 		<div flex-gt-xs="70" flex-xs="100"  layout="row" layout-align="left center" layout-fill>
 			<div class="md-list-item-text" layout="column" flex layout-padding layout-align="center left">
@@ -86,9 +93,9 @@
 				<md-menu-content >
 				<div layout="row" layout-padding layout-fill>
 					<div ng-if="item.flowtoUser.avatar.length>1" layout="row" layout-align="center center">
-						<img src="{{item.flowtoUser.avatar}}"  style="width:48px;height48px;border-radius:50%;" /> 
+						<img src="{{item.flowtoUser.avatar}}"  style="width:48px;height48px;border-radius:50%;"/> 
 					</div>
-					<span>{{item.flowtoUser.username}}</span>
+					<span ng-click="viewUser(item.flowtoUser.id,item.id);">{{item.flowtoUser.username}}</span>
 				</div>
 				</md-menu-content>
 			</md-menu>
@@ -105,12 +112,12 @@
 	</section>
 	</md-content>
 	<div flex="5" class="md-accent" style="background-color:#f9f8f7;" layout="row" layout-align="right center" layout-padding><span>Total : {{filtered.length}}</span><span flex></span><small style="color:#abacad;">Flowto:bata version</small><span flex="20"></span></div>
-</div>
-{%endverbatim%}
-{%endblock%}
+</script>
 
-{%block js_end%}
-{%verbatim%}
+
+
+
+
 <script type="text/ng-template" id="bottom-sheet-list-template.html">
 <md-bottom-sheet class="md-list md-has-header md-primary">
   <md-subheader ng-cloak md-warn><span class="md-warn">Actions</span></md-subheader>
@@ -126,7 +133,13 @@
     </md-list-item>
   </md-list>
 </md-bottom-sheet>
+
 </script>
+
+
+
+
+
 
 <script type="text/ng-template" id="createAssignment.tmpl.html">
    
@@ -174,5 +187,8 @@
 </div>
 </script>
 {%endverbatim%}
+<script type="text/ng-template" id="userAccount.html">
+{%include "_userAccount.inc"%}
+</script>
 {%endblock%}
 

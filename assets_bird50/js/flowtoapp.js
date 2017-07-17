@@ -67,7 +67,20 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		alert($scope.u.username);
 	};
 })
-.controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog,$mdMenu,flowtoUtil) {
+.controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog,$mdMenu,flowtoUtil,$anchorScroll,$q,$timeout) {
+	
+	 $scope.$on('$viewContentLoaded', function(){
+		 //alert('loaded ');
+		 var params=$location.search();
+		 if(params.scrollto){
+			 var old_hash=$location.hash();
+			 $timeout(function(){
+				$location.hash(params.scrollto);
+			 	$anchorScroll();
+				$location.hash(old_hash);
+			 },1000);
+		 }
+	 });
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};
@@ -244,6 +257,20 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	       }, function() {
 	         $scope.status = 'You cancelled the dialog.';
 	    });
+	};
+	$scope.viewUser=function(userId,scrollback){
+		var scrollback_ele_id='assignments_item_'+scrollback;
+		var hash_wait=function(){
+			var def=$q.defer();
+			$location.path("/user/"+userId);
+			def.resolve();
+			return def.promise;
+		};
+		hash_wait().then(function(){
+			$location.path("/user/"+userId).search({"scrollback":scrollback_ele_id});
+			//$location.hash("assignments_item_22");
+		});
+		//$anchorScroll();
 	};
 })
 .controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
@@ -762,24 +789,31 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	}
 	
 }) // end profileCtrl
-.controller('viewProfileCtrl', function($scope,flowtoUtil){
+// viewUser
+.controller('viewUserCtrl', function($scope, FlowtoUser, $routeParams,flowtoMsg,$mdDialog,flowtoUtil,APP_CFG){
+	
+	var params=$routeParams;
+	//alert(params);
+	//console.info("route:",params);
+	$scope.user={};
+	var filter={
+		"where": {"id":params.flowtoUserId}
+	};
+	console.info('filter:',filter);
+	if(params.flowtoUserId){
+		FlowtoUser.find({"filter":filter}).$promise
+		.then(function(data){
+			console.info("user:",data);
+			$scope.user=data[0];
+		});
+	}
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};
-	$scope.credentials={};
-	$scope.viewUser={}; 
-	// for keep user detail
-	$scope.islogin=FlowtoUser.isAuthenticated();
-	if($scope.islogin){
-		FlowtoUser.finById({"id":1}).$promise
-		.then(function(data){
-			$scope.viewUser=data;
-		},function(){
-			console.log('cannot find this user');
-		});
-	}
+})
 
-}) //creditCtrl
+
+//creditCtrl
 .controller('creditCtrl', function($scope,flowtoUtil){
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
@@ -798,11 +832,24 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 .config(
   function($routeProvider, $locationProvider) {
     $routeProvider
-       // for account.html
-      .when('/user/:userId', {
-        templateUrl: 'viewUser.html',
-        controller: 'viewProfileCtrl'
-      });
+      .when('/', {
+        templateUrl: 'dash.html',
+        controller: 'LoginCtrl',
+		  reloadOnSearch: false
+		  
+     //   controllerAs: 'flowtoCtrl'
+      })
+      .when('/user/:flowtoUserId', {
+        templateUrl: 'userAccount.html',
+        controller: 'viewUserCtrl',
+		  reloadOnSearch: false
+      })
+	  .otherwise({
+        templateUrl: 'dash.html',
+        controller: 'LoginCtrl',
+		  reloadOnSearch: false
+		})
+	  ;
 
    /*   .when('/Book/:bookId/ch/:chapterId', {
         templateUrl: 'chapter.html',
