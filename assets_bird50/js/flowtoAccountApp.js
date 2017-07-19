@@ -80,7 +80,7 @@ angular.module('flowtoAccountApp',['ngRoute','lbServices','flowtomodule','angula
       console.info('Success', response, status, headers);
       $scope.$broadcast('uploadCompleted', item);
 	  //console.log('file:'+item.file.name);
-	 // $scope.u.avatar=APP_CFG.avatar_url+'/'+item.file.name;
+	  $scope.u.avatar=APP_CFG.avatar_url+'/'+item.file.name;
 	  console.info('post in :',$scope.u);
 	  FlowtoUser.prototype$updateAttributes({ id: $scope.u.id }, $scope.u);
 	  flowtoMsg.alert('Saved !');

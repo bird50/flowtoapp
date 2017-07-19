@@ -125,21 +125,29 @@ angular.module('flowtomodule',['ngMaterial'])
 		 $window.location.href = this_url;
 		 return;
 	};
+	var common_vars={};
+	this.set_common_vars=function(setCommonVar){
+		common_vars = setCommonVar;
+		return;
+	};
+	this.get_common_vars=function(){
+		return common_vars;
+	};
 	
 })
 .constant(
 	'APIsEndPoint',{
-		'url':'http://bid.rid.go.th:3001/api',
-		'flowto_files':'http://bid.rid.go.th:3001/flowtofiles'
+		'url':'http://flowto.rid.go.th:3001/api',
+		'flowto_files':'http://flowto.rid.go.th:3001/flowtofiles'
 	}
 )
 .constant(
 	'APP_CFG',{
 		'app_name':'Flowto',
 		'app desc':'flowto app',
-		'url':'http://bid.rid.go.th:3001',
-		'avatar_url':'http://bid.rid.go.th:3001/profile_pics/thumb',
-		'avatar_url_post':'http://bid.rid.go.th:3001/profile_upload'
+		'url':'http://flowto.rid.go.th:3001',
+		'avatar_url':'http://flowto.rid.go.th:3001/profile_pics/thumb',
+		'avatar_url_post':'http://flowto.rid.go.th:3001/profile_upload'
 		
 	}
 )

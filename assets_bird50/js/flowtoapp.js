@@ -69,6 +69,8 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 })
 .controller('LoginCtrl', function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,Media,APIsEndPoint,$mdBottomSheet,$mdDialog,$mdMenu,flowtoUtil,$anchorScroll,$q,$timeout) {
 	
+	
+	// ng-view loaded event
 	 $scope.$on('$viewContentLoaded', function(){
 		 //alert('loaded ');
 		 var params=$location.search();
@@ -81,6 +83,18 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 			 },1000);
 		 }
 	 });
+	
+	$scope.gotoindex=function(){
+	//	alert("asdf");
+		$window.location.href = './index.html';
+		return;
+	}; 
+	
+	$scope.goCreateAssignment=function(){
+		$location.path("/createAssignment");
+		//return;
+	};
+	
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};
@@ -314,6 +328,36 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	//};
 	$scope.cancel = function() {
 		$mdDialog.cancel();
+	};
+})
+.controller('CreateAssignmentController2',function($scope,flowtoUtil,Assignment,FlowtoUser,$location){
+	$scope.new_assignment={"assignmentName":"","description":"","priority":3};
+	$scope.createAssignment=function(){
+		//Assignment.
+		$scope.uid=FlowtoUser.getCurrentId();
+		var thenow=new Date();
+		Assignment.create({ 
+			"assignmentName":$scope.new_assignment.assignmentName,
+			"description":$scope.new_assignment.description,
+			"flowtoUserId":$scope.uid,
+			"priority":$scope.new_assignment.priority,
+			"create_time":thenow
+		}).$promise
+		.then(function(dat){
+			console.info("createAssignment:"+dat);
+			//$mdDialog.hide(dat);
+			flowtoUtil.set_common_vars(dat);
+			$location.path("/");
+		},function(err){
+			console.log("create flowto fail");
+		});
+		//console.log('createAssignment ######');
+	};
+	//$scope.createClick=function(data){
+	//	$mdDialog.hide(data);
+	//};
+	$scope.cancel = function() {
+		flowtoUtil.click_back();
 	};
 })
 .controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,Assignment,APIsEndPoint,$interval,APP_CFG,flowtoUtil) {	
@@ -805,6 +849,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		.then(function(data){
 			console.info("user:",data);
 			$scope.user=data[0];
+			$scope.user.avatar=flowtoUtil.image_avatar(data[0].avatar,'images/ic_account_circle_black_48dp_2x.png');
 		});
 	}
 	$scope.click_back=function(){
@@ -843,6 +888,11 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
         templateUrl: 'userAccount.html',
         controller: 'viewUserCtrl',
 		  reloadOnSearch: false
+      })
+      .when('/createAssignment', {
+        templateUrl: 'createAssignment.tmpl.html2',
+        controller: 'CreateAssignmentController2',
+		  //reloadOnSearch: false
       })
 	  .otherwise({
         templateUrl: 'dash.html',

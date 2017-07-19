@@ -14,7 +14,6 @@
 {%block js_end%}
 {%verbatim%}
 <script type="text/ng-template" id="dash.html">
-
 <md-fab-speed-dial md-open="demo.isOpen" md-direction="up" class="md-fling md-fab-bottom-right" >
 	<md-fab-trigger>
 		<md-button aria-label="menu" class="md-fab md-warn ">
@@ -22,7 +21,8 @@
 		</md-button>
 	</md-fab-trigger>
 	<md-fab-actions>
-	<md-button class="md-accent md-fab"  ng-click="CreateAssignmentForm($event)" href="#"><img style="height:24px;width:24px;" aria-label="Create Assignment" src="images/ic_add_black_24dp_2x.png"></md-button>
+	<!--ng-click="CreateAssignmentForm($event)"-->
+	<md-button class="md-accent md-fab" ng-click="goCreateAssignment();"><img style="height:24px;width:24px;" aria-label="Create Assignment" src="images/ic_add_black_24dp_2x.png"></md-button>
 	<md-button class="md-accent md-fab " aria-label="Take a Flowto" ng-click="null" href="#"><a href="preview.html"><img style="height:24px;width:24px;" src="images/ic_camera_alt_black_48dp.png"></a></md-button>
 	</md-fab-actions>
 </md-fab-speed-dial>
@@ -33,7 +33,7 @@
 
 <md-toolbar md-scroll-shrink>
 	<div class="md-toolbar-tools" layout="row" layout-padding layout-fill layout-align="center center">
-			<md-button ng-click="click_back();"><strong>FLOWTO</strong></md-button>
+			<md-button ng-click="gotoindex();"><strong>FLOWTO</strong></md-button>
 			<md-input-container flex class="md-icon-float" style="margin:20px 0px 0px 0px;">
 				<!--<md-icon md-svg-src="images/ic_search_white_48px.svg"></md-icon>-->
 				<label class="md-caption">Search</label>
@@ -142,7 +142,7 @@
 
 
 <script type="text/ng-template" id="createAssignment.tmpl.html">
-   
+
 <div >
   <form ng-cloak>
     <md-toolbar>
@@ -157,6 +157,7 @@
     <div>
 	   
       <div  layout="column">
+		   
 		  <md-input-container class="md-block" flex-gt-sm>
             <label>Assignment</label>
             <input ng-model="new_assignment.assignmentName">
@@ -169,6 +170,7 @@
 		  <span flex="10">Important Rate</span>
 		  <md-slider flex class="md-accent" ng-model="new_assignment.priority" step="1" min="1" max="5" aria-label="rating">
 		  </div>
+		   
      </div>
     </div>
 
@@ -183,6 +185,58 @@
       </md-button>
       
     </md-dialog-actions>
+  </form>
+</div>
+</script>
+
+
+
+
+
+<script type="text/ng-template" id="createAssignment.tmpl.html2">
+
+<div>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h4>Create an Assignment</h4>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="images/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <div>
+      <div  layout="column">
+		   
+		  <md-input-container class="md-block" flex-gt-sm>
+            <label>Assignment</label>
+            <input ng-model="new_assignment.assignmentName">
+          </md-input-container>
+		  <md-input-container class="md-block">
+		  	<label>Description</label>
+			<textarea ng-model="new_assignment.description" rows="5"></textarea>
+		  </md-input-container>
+		   <div layout="row" layout-align="center center">
+		  <span flex="10">Important Rate</span>
+		  <md-slider flex class="md-accent" ng-model="new_assignment.priority" step="1" min="1" max="5" aria-label="rating"></md-slider>
+		 
+		  </div>
+		   
+     </div>
+    </div>
+
+    <md-dialog-actions layout="row">
+     
+      <md-button ng-click="cancel()" class="md-warn">
+        Cancel
+      </md-button>
+	   <span flex></span>
+      <md-button ng-click="createAssignment()">
+       Create
+      </md-button>
+      
+    </md-dialog-actions>
+	<form ng-cloak>
   </form>
 </div>
 </script>
