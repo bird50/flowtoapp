@@ -4,9 +4,10 @@ var express = require( "express" ),
 	request = require('request'),
 	jsonq=require('jsonq'),
 	fs = require('fs');
+	var cors = require('cors');
 app = express();
   // var nunjucksEnv = new nunjucks.Environment( new nunjucks.FileSystemLoader( path.join( __dirname, '/public' )));
-
+app.use(cors());
   app_cfg ={
 	'title':"FLOWTO",
 	'asset_url':"http://127.0.0.1:3000/",
@@ -32,6 +33,19 @@ app.use(express.static('assets_bird50'));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.setHeader('Access-Control-Allow-Origin', '*');
+     // Request methods you wish to allow
+     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+     // Request headers you wish to allow
+     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+     // Set to true if you need the website to include cookies in the requests sent
+     // to the API (e.g. in case you use sessions)
+     res.setHeader('Access-Control-Allow-Credentials', true);
+
+     // Pass to next layer of middleware
+    // next();
   next();
 });
 
@@ -39,7 +53,7 @@ app.use(function(req, res, next) {
 
 ///////////////// write for render mobile
 // var fs = require('fs');
-var buildPage_enabled=true;  // false if un build mode
+var buildPage_enabled=false;  // false if un build mode
 var buildPage=function(path,filename,data){
 	fs.writeFile("../flowto_buildpage/"+path+filename, data, function(err) {
 	    if(err) {
@@ -64,6 +78,8 @@ app.get(/\/(.*\.html)/, function(req, res) {
   	    res.send(htmlstring);
   	    buildPage('',req.params[0],htmlstring);
   	}else{
+	    res.header("Access-Control-Allow-Origin", "*");
+	    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   		res.render(req.params[0],app_cfg);
   	}
  // res.render(req.params[0],app_cfg);

@@ -38,7 +38,9 @@
 				<input type="text" placeholder="ENTER EMAIL (Gmail)" required=" " ng-model="credentials.email">				
 				<input style="margin-left:10px;" type="password" placeholder="PASSWORD" required=" " ng-model="credentials.password">
 				<div class="clearfix"> </div>
-				<input type="submit" value="LOGIN" > <a style="margin: 2.5em 0 1em;	padding: 10px 25px;float:left;" href="#" ng-click="register();">register</a>
+				<div layout="row" layout-align="left center">
+				<md-button type="submit"  class="md-button md-raised md-warn">LOGIN</md-button> | <md-button class="md-button md-raised" href="#"  ng-click="register();"><span class="md-title">RID</span> - <img src="images/gm.png" /> LOGIN</md-button>
+				</div>
 			</form>
 			<div class="clearfix"> </div>
 			</div><!--ng-if-->
@@ -82,5 +84,14 @@
 
 {%endblock%}
 
+{%block js_end%}
+{{super()}}
+<script>
+	document.addEventListener("deviceready", onDeviceReady, false);
+	function onDeviceReady() {
+	    window.open = cordova.InAppBrowser.open;
+	}
+</script>
+{%endblock%}
 
 

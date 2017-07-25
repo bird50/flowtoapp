@@ -1,6 +1,6 @@
 //flowtoapp
 angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpload','ngAvatar','ngMaterial'])
-.controller('indexCtrl',function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,APIsEndPoint,$mdDialog,flowtoUtil) {
+.controller('indexCtrl',function($scope, FlowtoUser,Assignment, $location,$window,flowtoMsg,APIsEndPoint,APP_CFG,$mdDialog,flowtoUtil,$interval,$rootScope,LoopBackAuth,$route,$http) {
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};
@@ -53,15 +53,134 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	};
 	
 	$scope.logout=function(){
-		return FlowtoUser.logout(function(){
-			$scope.islogin=FlowtoUser.isAuthenticated();
-			console.log('logout');
-		});
+		window.plugins.googleplus.logout(
+		    function (msg) {
+		      //alert(msg); // do something useful instead of alerting
+			  console.log('logout google'+msg);
+		    }
+		);
+		
+  		return FlowtoUser.logout(function(){
+  			$scope.islogin=FlowtoUser.isAuthenticated();
+  			console.log('logout');
+  		});
 	};
 	
+	
+	
 	$scope.register=function(){
-		flowtoMsg.alert('ขออภัย ยังไม่เปิดการรับสมัครสมาชิกในตอนนี้');
-	};
+		/*
+		//flowtoMsg.alert('ขออภัย ยังไม่เปิดการรับสมัครสมาชิกในตอนนี้');
+		var $popup = window.open("http://flowto.rid.go.th:3001/google/");
+		//var $popup = cordova.InAppBrowser.open('http://flowto.rid.go.th:3001/google/', '_blank', 'location=yes');
+		//$popup = window.open("http://flowto.rid.go.th:3001/loginfinish/");
+		$popup.isopen=true;
+		$scope.register_data={};
+		
+		window.addEventListener('message',function(ev) {
+			console.info('ev.origin:',ev.origin);
+			console.info('ev.data:',ev.data);
+			
+			if(ev.data=="closed"){
+				$scope.googleLogin_running=false;
+				console.log('googleLogin_running=false');
+			}else{
+				$scope.register_data=ev.data;
+			}
+		});
+		
+		//send message every 100 msec
+		$scope.googleLogin_running=true;
+		var count_i=0;
+		var watchGoogleLogin=$interval(function(){
+			if(!$scope.googleLogin_running){  // popup was closed
+				console.log('game over');
+				//regis the value
+				if($scope.register_data.token){
+					LoopBackAuth.setUser($scope.register_data.token, $scope.register_data.userId);
+					LoopBackAuth.rememberMe = true;
+					LoopBackAuth.save();
+			
+					window.localStorage.setItem('$LoopBack$accessTokenId', $scope.register_data.token);
+					window.localStorage.setItem('$LoopBack$currentUserId', $scope.register_data.userId);
+					//refresh
+					location.reload();
+					$route.reload();
+				}
+				
+				//kill interval
+				console.log('close already');
+				//console.log($popup);
+				$scope.googleLogin_running=false;
+				$interval.cancel(watchGoogleLogin);
+				watchGoogleLogin = undefined;
+			}
+			$popup.postMessage('Hello it \'s me.Flowto App!!!','http://flowto.rid.go.th:3001');
+			count_i++;
+			console.log('pop('+count_i+')');
+			//if(!$popup.isopen){$scope.googleLogin_running=false;console.log('googleLogin_running=false');}
+		},100);
+		
+		//kill interval
+		*/
+		/*
+		$scope.$watch('googleLogin_running', function() {
+			console.log('googleLogin_running:'+$scope.googleLogin_running);
+				if(!$scope.googleLogin_running){
+					$interval.cancel(watchGoogleLogin);
+					watchGoogleLogin = undefined;
+				}
+				
+		});
+		*/
+
+		//window.plugins.googleplus.trySilentLogin(
+		window.plugins.googleplus.login(
+		    {
+		      'scopes': 'https://www.googleapis.com/auth/userinfo.email', // optional - space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+		      'webClientId': '750910688956-5g4vvfqe10g44l2nc7uk5pi9vp4qeg21.apps.googleusercontent.com', // optional - clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+		      'offline': true, // Optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+		    },
+		    function (obj) {
+				console.log('return tok:'+obj.idToken);
+		      //alert(JSON.stringify(obj)); // do something useful instead of alerting
+			  	$http.get(APP_CFG.url+'/rid_gmail_login/?accessToken='+obj.idToken)
+			  .then(function(logindat){
+			  			//alert(JSON.stringify(data));
+						console.info('success for login data:',logindat);
+						LoopBackAuth.setUser(logindat.data.token,logindat.data.userId);
+						LoopBackAuth.rememberMe = true;
+						LoopBackAuth.save();
+			
+						window.localStorage.setItem('$LoopBack$accessTokenId', logindat.data.token);
+						window.localStorage.setItem('$LoopBack$currentUserId', logindat.data.userId);
+						
+						window.plugins.googleplus.logout(
+						    function (msg) {
+						      console.log('logout'+msg); // do something useful instead of alerting
+						    }
+						);
+						//refresh
+						location.reload();
+						$route.reload();
+						
+			  		},function(err_dat){
+			  			//alert(JSON.stringify(err));
+						console.info('err_login',err_dat);
+						flowtoMsg.alert(err_dat.data.error);
+						window.plugins.googleplus.disconnect(
+						    function (msg) {
+						      console.log('logout'+msg); // do something useful instead of alerting
+						    }
+						);
+			  });
+		    },
+		    function (msg) {
+		      console.log('error: ' + msg);
+		    }
+		);
+		
+	};  //end $scope.register
 	
 	$scope.msgUsername=function(){
 		alert($scope.u.username);
@@ -80,7 +199,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 				$location.hash(params.scrollto);
 			 	$anchorScroll();
 				$location.hash(old_hash);
-			 },1000);
+			 },500);
 		 }
 	 });
 	
@@ -142,6 +261,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	};
 	
 	$scope.logout=function(){
+		
 		return FlowtoUser.logout(function(){
 			$scope.islogin=FlowtoUser.isAuthenticated();
 			console.log('logout');
@@ -233,7 +353,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 	       }).then(function(clickedItem) {
 	         $scope.alert = clickedItem['name'] + ' clicked!';
 			 
-			 if(clickedItem['name']=='Set As Curent Assignment'){
+			 if(clickedItem['name']=='Join this Assignment'){
 				 $scope.u.activateAssignment=assignmentId;
 				 FlowtoUser.prototype$updateAttributes({ id: $scope.uid }, $scope.u);
 				 $scope.assignmentName=assignmentName;
@@ -289,7 +409,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 })
 .controller('ListBottomSheetCtrl', function($scope, $mdBottomSheet) {
   $scope.items = [
-	{ name: 'Set As Curent Assignment', icon: 'share-arrow' },
+	{ name: 'Join this Assignment', icon: 'share-arrow' },
     //{ name: 'Flowto-List ', icon: 'upload' },
     { name: 'Flowto-Map', icon: 'copy' },
 	//{ name: 'Share', icon: 'share-arrow' },
