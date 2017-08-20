@@ -26,6 +26,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		
 	}
 	$scope.go2url=function(the_url){
+		console.log('go2url:'+the_url);
 		$window.location.href = the_url;
 		return;
 	};
@@ -133,12 +134,20 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 				
 		});
 		*/
-
+		/*
+		window.plugins.googleplus.getSigningCertificateFingerprint(
+		  function (fingerprint) {
+		    alert(fingerprint);
+		  }
+		);
+		*/
+		
 		//window.plugins.googleplus.trySilentLogin(
 		window.plugins.googleplus.login(
 		    {
 		      'scopes': 'https://www.googleapis.com/auth/userinfo.email', // optional - space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
 		      'webClientId': '750910688956-5g4vvfqe10g44l2nc7uk5pi9vp4qeg21.apps.googleusercontent.com', // optional - clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+			  //'webClientId':'750910688956-oub84hgiitrcabj79u5af71ijtpqn8b1.apps.googleusercontent.com',
 		      'offline': true, // Optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
 		    },
 		    function (obj) {
@@ -359,7 +368,7 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 				 $scope.assignmentName=assignmentName;
 				 console.log('set active assignment id to:'+assignmentId);
 			 }else if(clickedItem['name']=='Flowto-Map'){
-			 	$window.location.href = './map.html?asid='+assignmentId;
+			 	$window.location.href = './map.html#/?asid='+assignmentId;
 			 }else if(clickedItem['name']=='Remove'){
 				// alert('remove click'+assignmentId);
 				 Assignment.destroyById({"id":assignmentId}).$promise
@@ -480,7 +489,10 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 		flowtoUtil.click_back();
 	};
 })
-.controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,Assignment,APIsEndPoint,$interval,APP_CFG,flowtoUtil) {	
+.controller('PreviewCtrl', function($scope,$q, FlowtoUser, $location,flowtoMsg,flowtoPreview,FileUploader,Media,Flowto,Assignment,APIsEndPoint,$interval,APP_CFG,flowtoUtil) {
+	$scope.go2url=function(the_url){
+		flowtoUtil.go2url(the_url);
+	};
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};

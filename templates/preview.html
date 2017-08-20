@@ -20,7 +20,7 @@
 			<span ng-if="u.avatar.length==1">
 				<ng-avatar bind="true" initials="{{u.avatar}}" bg-color="purple"  round-shape="true" auto-color="true" font-weight="700" style="vertical-align:middle;"></ng-avatar>
 			</span>
-			<md-button><a href="map.html" class="menu_a">MAP</a></md-button>
+			<md-button ng-click="go2url('map.html');"><strong class="menu_a">MAP</strong></md-button>
 	        <!--<md-button class="md-icon-button" aria-label="More">
 	          <md-icon md-svg-icon="images/icons/ic_more_vert_white_24px.svg"></md-icon>
 	        </md-button>-->
@@ -40,11 +40,14 @@
 </div>
 {%verbatim%}
 
-<div layout="row"><!--footer-->
+<div layout="column"><!--footer-->
+<div layout="row">	
 <span flex="20">
 <md-button ng-click="flowtoUploadAll();" class="md-raised md-warn">UPLOAD</md-button>
 </span>
 <md-progress-linear md-mode="determinate" md-diameter="50" flex value="{{progress_upload}}"  class="md-hue-2" ng-show="progress_upload_show"> </md-progress-linear>
+</div>
+<p></p>
 </div><!--footer-->
 </md-content>
 </div><!--endpage-->

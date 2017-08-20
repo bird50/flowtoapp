@@ -12,6 +12,11 @@ angular.module('flowtoMap',['ngRoute','lbServices','flowtomodule'])
         controller: 'flowtoCtrl'
      //   controllerAs: 'flowtoCtrl'
       })
+      .when('/editflowto/:flowtoId', {
+        templateUrl: 'editflowto.html',
+        controller: 'editflowtoCtrl'
+     //   controllerAs: 'flowtoCtrl'
+      })
 	  .otherwise({
 	    template : "<h1>nothing</h1><p>Nothing has been selected</p>"
 	});
@@ -29,7 +34,7 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 
 })
 .controller('mainmapCtrl',
-function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil,$mdMenu) {
+function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil,$mdMenu,$compile) {
 	
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
@@ -55,16 +60,25 @@ map4.attributionControl.setPrefix(false); // remov leaflet attribution
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map4);
-
-var template_popup='<div class="flowtoCover"><div style="position:absolute;left:180px;top:10px;"><a class="pop_flowto_menu" href="#/" data="{f_id}" ><img src="images/more_vert_white_48x48.png" style="height:16;width:16;"/></a></div><a href="#/flowto/{f_id}"><img src="{url}" class="flowtoInMap" style="cursor:hand;"/ ></a></div>'+
+/*
+var template_popup='<div class="flowtoCover"><div style="position:absolute;left:180px;top:10px;"><a class="pop_flowto_menu" href="#/" data="{f_id}" ><img src="images/more_vert_white_48x48.png" style="height:16;width:16;"/></a></div><div ng-click="view_flowto({f_id});"><img src="{url}" class="flowtoInMap" style="cursor:hand;"/ ></div></div>'+
 '<table class="flowtoinfo">'+
 '<tr><td width="80%" style="word-wrap:break-word;"><div class="flowtocaption">{caption}</div></td>'+
 '<td width="20%" align="right">'+
 	'<label>Lat:</label><span>{lat}</span><br/><label>Lng:</label><span>{lng}</span><br/>'+
 	'<span>{flowtodate}</span><br/>'
 '</td>'+
-'</tr></table>';
+'</tr></table>';*/
+var template_popup='<div class="flowtoCover"><div ng-click="view_flowto({f_id});"><img src="{url}" class="flowtoInMap" style="cursor:hand;"/ ></div>'+
+'<table class="flowtoinfo">'+
+'<tr><td width="80%" style="word-wrap:break-word;"><div class="flowtocaption">{caption}</div></td>'+
+'<td width="20%" align="right">'+
+	'<label>Lat:</label><span>{lat}</span><br/><label>Lng:</label><span>{lng}</span><br/>'+
+	'<span>{flowtodate}</span><br/>'
+'</td>'+
+'</tr></table></div>';
 //var photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click', function (evt) {
+/*
 $scope.photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click', function (evt) {
 		evt.layer.bindPopup(L.Util.template(template_popup, evt.layer.photo), {
 			className: 'leaflet-popup-photo',
@@ -75,6 +89,20 @@ $scope.photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('cli
 		console.info('evt photo',evt.layer.photo);
 		//map4.removeLayer(evt.layer.photo);
 });
+	*/
+	$scope.photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('click', function (evt) {
+		var linkFunction= $compile(angular.element(L.Util.template(template_popup, evt.layer.photo)));
+			var pop_em_up = L.popup();
+			pop_em_up.setContent(linkFunction($scope)[0]);
+			evt.layer.bindPopup(pop_em_up, {
+				className: 'leaflet-popup-photo',
+				minWidth: 200, //320
+				//maxWidth:390
+			}).openPopup();
+			$scope.init_jq();
+			console.info('evt photo',evt.layer.photo);
+			//map4.removeLayer(evt.layer.photo);
+	});
 
 //$scope.search_ac=$location.search('flowtoId');
 //console.info('search:',$scope.search_ac);
@@ -89,19 +117,23 @@ $scope.photoLayer = L.photo.cluster({ spiderfyDistanceMultiplier: 1.2 }).on('cli
 		.then(function(data){
 			$scope.u=data;
 			console.log(data);
-			var asid_form_param = $scope.getParameterByName('asid',$location.absUrl());
+			
+			//var asid_form_param =  $scope.getParameterByName('asid',$location.absUrl());
+			var asid_form_param = $location.search().asid;
+			
+			console.log('asid_form_param:'+asid_form_param);
 			var assignmentIdToFind=1;
 			if( !asid_form_param){
 				assignmentIdToFind=data.activateAssignment;
 			}else{
 				assignmentIdToFind=asid_form_param;
 			}
-			console.log('assignmentIdToFind:'+assignmentIdToFind);
+			console.log('assignmentIdToFind:'+JSON.stringify(assignmentIdToFind));
 			$scope.assignment=Assignment.findById({"id":assignmentIdToFind})
 			.$promise.then(function(dat){
 				$scope.assignmentName=dat.assignmentName;
 				$scope.assignmentId=dat.id;
-				console.log('asdf');
+				//console.log('asdf');
 				
 			console.log(JSON.stringify(dat));
 							//$scope.init_flowtos();
@@ -225,7 +257,10 @@ $scope.init_jq=function(){
 };
 
 //$scope.init_jq();
-
+$scope.view_flowto=function(flowto_id){
+	console.log('view flowto:'+flowto_id);
+	$location.path('/flowto/'+flowto_id+'/').replace();
+};
 
 
 // test with markercluster
@@ -282,9 +317,13 @@ $scope.showConfirm = function(ev) {
 })
 .controller('flowtoCtrl',
 function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEndPoint,$q,$mdBottomSheet,$filter,$route, $routeParams,flowtoUtil,WORD) {
+
+	
+	$scope.thisFlowto={};
 	$scope.click_back=function(){
 		flowtoUtil.click_back();
 	};
+	
 	moment.locale('th');
 	$scope.params=$routeParams;
 	$scope.thisFlowto={
@@ -320,6 +359,7 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 		};
 		console.info("flowto dat:",data);
 		console.info("flowto_in:",$scope.thisFlowto);
+		flowtoUtil.set_common_vars($scope.thisFlowto);
 	},function(err){
 		//$scope.thisFlowto={};
 		console.log("nothing");
@@ -386,8 +426,21 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 				});//promise getcurent user
 				
 			}
+			if(data=="editFlowto"){
+				
+				$location.path('/editflowto/'+$scope.params.flowtoId).replace();
+			}
 		});
 	};//click_more_vert_btn
+	
+	$scope.go2map=function(){
+		console.log('before go2map->path:'+$location.path());
+		console.log('before go2map->search:'+JSON.stringify($location.search()));
+		$location.path('/').replace().search({'asid': $scope.thisFlowto.assignmentId});
+		// use replace()for changing the url without adding to the history state
+		console.log('after go2map->path:'+$location.path());
+		console.log('after go2map->search:'+JSON.stringify($location.search()));
+	};
 
 })
 .controller('fowto_morevertCtrl',function($scope,Flowto,$mdDialog,$mdBottomSheet,data,flowtoMsg){
@@ -418,20 +471,33 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
 		
 		$mdBottomSheet.hide('copyFlowto');
 	};//copyFlowto
-	
+	$scope.editFlowto=function(){
+		$mdBottomSheet.hide('editFlowto');
+	};
 })
-//  credit -->http://stackoverflow.com/questions/15610501/in-angular-i-need-to-search-objects-in-an-array
-.filter('find_index_of_photos_by_f_id', function() {
-  return function(input, f_id) {
-    var i=0, len=input.length;
-    for (; i<len; i++) {
-      if (+input[i].f_id == +f_id) {
-       // return input[i];
-	   return i;
-      }
-    }
-    return null;
-  }
+.controller('editflowtoCtrl',function($scope,Flowto,flowtoMsg,flowtoUtil,$location){
+	$scope.thisFlowto=flowtoUtil.get_common_vars(); // เรียกข้อมูลจาก controller ก่อนหน้า
+	//console.log('common'+$scope.thisFlowto);
+	$scope.flt=Flowto.findById({'id':$scope.thisFlowto.id});
+	
+	$scope.editflowto_save=function(){
+		$scope.flt.caption=$scope.thisFlowto.caption;
+		$scope.flt.$save().then(function(){
+			console.log('save new caption');
+			$location.path('/flowto/'+$scope.thisFlowto.id).replace();
+			// use replace() for kill this history
+		},function(){
+			flowtoMsg.alert('ไม่สามารถ แก้ไขได้');
+		});
+		
+	};
+	
+	$scope.click_back=function(){
+		//alert('back');
+		//history.go(-1);
+		$location.path('/flowto/'+$scope.thisFlowto.id).replace();
+	};
+	
 })
 .config(function(LoopBackResourceProvider,APIsEndPoint) {
 

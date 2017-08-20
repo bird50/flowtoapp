@@ -53,7 +53,7 @@
 		<md-menu>
 			<span ng-click="$mdMenu.open()">{{assignmentName}}</span>
 			<md-menu-content width="4">
-				<md-menu-item >Hello</md-menu-item>
+				<md-menu-item >{{assignmentName}}</md-menu-item>
 			</md-menu-content>
 		</md-menu>
 		</div>
@@ -77,7 +77,7 @@
 {%verbatim%}
  <md-toolbar class="md-primary">
       <div class="md-toolbar-tools" layout="row" layout-padding>
-        <md-button ng-click="click_back();">
+        <md-button ng-click="go2map();">
 			<img src="images/ic_keyboard_backspace_white_48dp_2x.png" style="width:24px;height:24px;"/>
 		</md-button><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
           <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
@@ -128,6 +128,65 @@ style="
 {%endverbatim%}
 </script>
 
+<script type="text/ng-template" id="editflowto.html">
+{%verbatim%}
+ <md-toolbar class="md-primary">
+      <div class="md-toolbar-tools" layout="row" layout-padding>
+        <md-button ng-click="click_back();">
+			<img src="images/ic_keyboard_backspace_white_48dp_2x.png" style="width:24px;height:24px;"/>
+		</md-button><!--<md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+          <md-icon md-svg-icon="images/icons/ic_menu_white_24px.svg"></md-icon>
+        </md-button>--> 
+		<div style="overflow:hidden;text-overflow:ellipsis; " flex>
+			edit flowto: {{thisFlowto.id}}
+		</div>
+        <md-button ng-click="editflowto_save();">
+			<img src="images/ic_done_white_48dp_2x.png" style="width:24px;height:24px;"/>
+		</md-button>
+      </div>
+</md-toolbar>
+<div flex layout="column" layout-fill>
+<div flex="50" 
+style="
+    background-image: url('{{thisFlowto.img_url}}');
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center top;
+    background-attachment: fixed;
+	background-color:#c4c4c4;
+	overflow:scroll;
+}" layout="column" layout-align="bottom right" layout-padding
+>
+</div>
+<div flex="50" style="overflow:scroll;" layout="column" layout layout-align="top">
+<div style="overflow-y:scroll;">
+		<div layout="row" layout-align="left top" layout-padding >
+			<span class="md-body-2">{{thisFlowto.flowtoUser}}</span>
+			<md-input-container class="md-block" flex>
+				          <label>CAPTION...</label>
+				          <textarea ng-model="thisFlowto.caption"  rows="2" ></textarea>
+			</md-input-container>
+		</div>
+		<div layout="row" layout-align="right center" layout-padding>
+			<span flex></span>
+			<span class="md-caption" style="color:#b7b3b3;"><strong>position:</strong>{{thisFlowto.lat}},{{thisFlowto.lng}} </span>
+		</div>
+
+		<div layout="row" layout-padding layout-align="right center">
+			<span flex></span>
+			<span class="md-caption" style="color:#b7b3b3;">{{thisFlowto.flowtodate_thai}} ({{thisFlowto.flowtodate}})</span>
+		</div>
+		<div layout="row" layout-align="right center" layout-padding>
+			<span flex></span>
+			<span class="md-body-1 md-accent">Assignment:</span> 
+			<span class="md-body-1 md-accent" style="text-decoration:underline;">{{thisFlowto.assignmentName}}</span>
+		</div>
+</div><!--overflow-y-->
+</div><!--flex=50-->
+</div>
+{%endverbatim%}
+</script>
+
 <script type="text/ng-template" id="copyFlowto.html">
 {%verbatim%}
  <md-toolbar class="md-primary">
@@ -149,6 +208,13 @@ style="
   <md-subheader ng-cloak md-primary><span class="md-warn"> action</span></md-subheader>
   <md-list ng-cloak>
     <md-list-item >
+      <md-button class="md-accend"
+          ng-click="editFlowto();"
+          md-autofocus="false"
+          class="md-list-item-content md-accend md-raised" >
+        <span class="md-inline-list-icon-label md-accend">Edit</span>
+      </md-button>
+    </md-list-item>
       <md-button class="md-accend"
           ng-click="flowtoMsg.inputTextArea('asdf','asdf',$event);copyFlowto();"
           md-autofocus="false"

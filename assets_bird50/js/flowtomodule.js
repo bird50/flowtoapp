@@ -31,7 +31,7 @@ angular.module('flowtomodule',['ngMaterial'])
 			'<div><md-content ng-bind-html="content"></md-content></div>'+
 			'<md-input-container class="md-block">'+
 		  	'<label>{{label}}</label>'+
-			'<textarea ng-model="message" rows="5" md-select-on-focus></textarea>'+
+			'<textarea ng-model="message" rows="5"></textarea>'+
 		  '</md-input-container>'+
 			//'<md-divider></md-divider>'+
 			'<div layout="row" layout-padding>'+

@@ -7,13 +7,30 @@
 {%endblock%}
 {%block body_tag%} ng-app="flowtong" ng-controller="indexCtrl" ng-cloak{%endblock%}
 {%block headermenu%}
+{%verbatim%}
 	<div id="home" class="banner" >
 	<div class="container">
 		<div class="head-logo" layout="row" layout-align="center center">
 			<a href="#"><img src="images/logo_f3.png" alt=" " style="width:36px;height:36;"></a>
 			<a href="#"><img src="images/logo.png" alt=" "></a>
+			<div flex > </div>
+			<md-menu md-position-mode="target-right target pull-right">
+				<md-button ng-click="$mdMenu.open();"  class=""><img src="images/menu.png" alt="" /></md-button>
+				<md-menu-content width="6">
+					<md-menu-item >
+					<md-button ng-click="go2url('credit.html');"><span>Credit</span></md-button>
+					</md-menu-item >
+					<md-menu-item ng-if="islogin">
+					<md-button ng-click="go2url('account.html');"><span>My Account</span></md-button>
+					</md-menu-item >
+					<md-menu-item ng-if="islogin">
+					<md-button ng-click="logout();">Logout</md-button>
+					</md-menu-item >
+				</md-menu-content >
+			</md-menu>
 		</div>
-{%verbatim%}
+
+		<!--
 		<div class="top-nav">
 			<span class="menu"><img src="images/menu.png" alt="" /></span>
 				<ul class="nav1">
@@ -24,6 +41,8 @@
 					<div class="clearfix"> </div>
 				</ul>
 		</div>
+		-->
+		
 {%endverbatim%}
 		<div class="clearfix"> </div>
 {%endblock%}
@@ -60,7 +79,7 @@
 				<img src="images/ic_camera_alt_black_48dp.png" />
 				Take a Flowto
 			</md-button>
-			<md-button class="md-raised md-primary" layout="row" ng-click="go2url('map.html')">
+			<md-button class="md-raised md-primary" layout="row" ng-click="go2url('map.html#/')">
 				<img src="images/ic_pin_drop_black_48dp_2x.png" style="width:48px;height:48px;"/>
 				Map
 				
