@@ -164,6 +164,11 @@ angular.module('flowtomodule',['ngMaterial'])
 	.warnPalette('deep-orange')
 	//.dark();
 })
+// credit -->https://github.com/angular/material/issues/10058
+// แก้ไข input tab cursor ไม่ได้
+.config(function($mdGestureProvider) {
+  $mdGestureProvider.skipClickHijack();
+})
 .run(function($rootScope, $route,$location,$anchorScroll,$timeout){
 	$rootScope.scrollto={};
 	$rootScope.$on('$routeChangeSuccess', function(ev,cur_me, pass_me) {

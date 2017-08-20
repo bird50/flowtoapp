@@ -513,6 +513,10 @@ function($scope, FlowtoUser, $location,flowtoMsg,Media,Flowto,Assignment,APIsEnd
     .primaryPalette('teal')
     .accentPalette('deep-orange');
 })
-
+// credit -->https://github.com/angular/material/issues/10058
+// แก้ไข input tab cursor ไม่ได้
+.config(function($mdGestureProvider) {
+  $mdGestureProvider.skipClickHijack();
+})
 ;
 

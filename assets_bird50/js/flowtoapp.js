@@ -1041,6 +1041,11 @@ angular.module('flowtong',['ngRoute','lbServices','flowtomodule','angularFileUpl
 */
     //$locationProvider.html5Mode(true);
 })
+// credit -->https://github.com/angular/material/issues/10058
+// แก้ไข input tab cursor ไม่ได้
+.config(function($mdGestureProvider) {
+  $mdGestureProvider.skipClickHijack();
+})
 ;
 
 
